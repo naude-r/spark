@@ -5,6 +5,13 @@
 Spark - a tiny web framework for Java 8
 ==============================================
 
+# About this fork
+
+The goal of this fork is to update Spark from the community pull requests and update dependencies until the official repository is
+back to regular maintenance. 
+
+# About Spark
+
 **Spark 2.9.3 is out!!**  <a href="https://github.com/perwendel/spark/blob/master/changeset/2.9.3-changeset.md">Changeset</a> 
 ```xml
 <dependency>
