@@ -12,7 +12,7 @@ This is the current status for each PR:
   * perwendel/spark#1246 opened on Aug 18, 2021 by YunLemon
 * Upgrade SLF4J
   * perwendel/spark#1239 opened on Jun 2, 2021 by M-Razavi
-* Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
+* ❌**TEST FAILING**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
   * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
 * fix issue perwendel/spark/issues/1204
   * perwendel/spark#1236 opened on May 21, 2021 by FhToday
@@ -34,7 +34,7 @@ This is the current status for each PR:
   * perwendel/spark#1227 opened on May 9, 2021 by Lloyd-Pottiger
 * fix issue perwendel/spark/issues/986 Web socket request
   * perwendel/spark#1225 opened on Apr 25, 2021 by nicetryzz
-* Solve the problem of non-ASCII characters in URL. Try to fix #1026
+* ❌**TEST FAILING**: Solve the problem of non-ASCII characters in URL. Try to fix #1026
   * perwendel/spark#1222 opened on Apr 23, 2021 by Bugjudger
 * Fix issue perwendel/spark/issues/1069 and add according Test
   * perwendel/spark#1220 opened on Apr 21, 2021 by Lloyd-Pottiger
@@ -42,7 +42,7 @@ This is the current status for each PR:
   * perwendel/spark#1219 opened on Apr 20, 2021 by Lloyd-Pottiger
 * ☑**MERGED**: fix issue perwendel/spark/issues/318 change HashMap to ConcurrentHashMap
   * perwendel/spark#1218 opened on Apr 20, 2021 by Lloyd-Pottiger
-* fix: upgrade org.slf4j:slf4j-api from 1.7.13 to 1.7.30
+* ☑**UPDATED TO 1.7.36**: fix: upgrade org.slf4j:slf4j-api from 1.7.13 to 1.7.30
   * perwendel/spark#1215 opened on Apr 12, 2021 by M-Razavi
 * ☑**MERGED**: Disable server version response header
   * perwendel/spark#1214 opened on Apr 9, 2021 by robax
