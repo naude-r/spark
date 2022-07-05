@@ -22,7 +22,7 @@ This is the current status for each PR:
   * perwendel/spark#1234 opened on May 20, 2021 by Bugjudger
 * fix issue perwendel/spark/issues/911 
   * perwendel/spark#1233 opened on May 19, 2021 by cqn2219076254
-* FIX Refactor pom and update versions 
+* ☑**UPDATED ALREADY**: FIX Refactor pom and update versions 
   * perwendel/spark#1232 opened on May 19, 2021 by andres-sacco
 * fix-issue perwendel/spark/issues/339 have ": " in request params map 
   * perwendel/spark#1230 opened on May 19, 2021 by nicetryzz
