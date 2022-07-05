@@ -8,7 +8,7 @@ This is the current status for each PR:
   * perwendel/spark#1258 opened 15 days ago by Clivern
 * ☑**MERGED**: Add test for Base64.decode and Base64.encode
   * perwendel/spark#1257 opened 18 days ago by lacinoire
-* ⚠**WORKS PARTIALLY (only Java8 is working)**: Improve Travis CI build Performance
+* ⚠**PARTIALLY WORKS (only Java8 is working)**: Improve Travis CI build Performance
   * perwendel/spark#1246 opened on Aug 18, 2021 by YunLemon
 * ☑**UPDATED ALREADY**: Upgrade SLF4J
   * perwendel/spark#1239 opened on Jun 2, 2021 by M-Razavi
