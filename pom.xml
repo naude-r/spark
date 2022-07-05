@@ -28,6 +28,19 @@
     <developers>
     </developers>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/intellisrc/spark</url>
+        </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/intellisrc/spark</url>
+        </snapshotRepository>
+    </distributionManagement>    
+    
     <properties>
         <java.version>1.8</java.version>
         <slf4j.version>1.7.36</slf4j.version>
