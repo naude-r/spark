@@ -7,8 +7,15 @@ Spark - a tiny web framework for Java 8
 
 # About this fork
 
-The goal of this fork is to update Spark from the community pull requests and update dependencies until the official repository is
-back to regular maintenance. 
+The goal of this fork is to update Spark from the community pull requests and update dependencies until the official repository is back to regular maintenance. 
+
+You can see the merge progress in [PR-STATUS](PR-STATUS.md)
+
+## How to contribute
+
+One way to contribute, is by cloning this repository and trying to merge a branch (from the above ones) in your local copy. Run the tests and check the code (to spot any potential issues). if the tests are failing, you can try to fix the branch. If all tests are passing, and the merge is useful, create a PR in this repository for that branch.
+
+If you want to help even more, contact me and we can get organized to improve this process.
 
 # About Spark
 
