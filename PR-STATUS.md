@@ -18,7 +18,7 @@ This is the current status for each PR:
   * perwendel/spark#1236 opened on May 21, 2021 by FhToday
 * Fix perwendel/spark/issues/688: Priority of accept types is incorrect if the client specifies no q factor
   * perwendel/spark#1235 opened on May 21, 2021 by Chauncey-Xxy
-* Solve the problem of Method not allowed (Error 405)
+* ☑**MERGED**: Solve the problem of Method not allowed (Error 405)
   * perwendel/spark#1234 opened on May 20, 2021 by Bugjudger
 * fix issue perwendel/spark/issues/911 
   * perwendel/spark#1233 opened on May 19, 2021 by cqn2219076254
