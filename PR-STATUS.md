@@ -1,6 +1,6 @@
 # Pull Requests status
 
-Most recent (after 2019) [Pull Requests](https://github.com/perwendel/spark/pulls) are added [as branches](https://github.com/Intellisrc/spark/branches/stale) in this fork.
+Most recent (after 2019) [Pull Requests](https://github.com/perwendel/spark/pulls) were added [as branches](https://github.com/Intellisrc/spark/branches/stale) in this fork.
 
 This is the current status for each PR:
 
