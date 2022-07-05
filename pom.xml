@@ -6,7 +6,7 @@
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
-    <groupId>com.sparkjava</groupId>
+    <groupId>com.intellisrc</groupId>
     <artifactId>spark-core</artifactId>
     <packaging>bundle</packaging>
     <version>2.9.4-SNAPSHOT</version>
@@ -21,9 +21,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git@github.com:perwendel/spark.git</connection>
-        <developerConnection>scm:git:git@github.com:perwendel/spark.git</developerConnection>
-        <url>scm:git:git@github.com:perwendel/spark.git</url>
+        <connection>scm:git:git@github.com:intellisrc/spark.git</connection>
+        <developerConnection>scm:git:git@github.com:intellisrc/spark.git</developerConnection>
+        <url>scm:git:git@github.com:intellisrc/spark.git</url>
     </scm>
     <developers>
     </developers>
