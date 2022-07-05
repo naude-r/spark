@@ -14,7 +14,7 @@ This is the current status for each PR:
   * perwendel/spark#1239 opened on Jun 2, 2021 by M-Razavi
 * ❌**TEST FAILING**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
   * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
-* fix issue perwendel/spark/issues/1204
+* ❌**TEST FAILING**: fix issue perwendel/spark/issues/1204
   * perwendel/spark#1236 opened on May 21, 2021 by FhToday
 * Fix perwendel/spark/issues/688: Priority of accept types is incorrect if the client specifies no q factor
   * perwendel/spark#1235 opened on May 21, 2021 by Chauncey-Xxy
