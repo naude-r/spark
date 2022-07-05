@@ -8,9 +8,9 @@ This is the current status for each PR:
   * perwendel/spark#1258 opened 15 days ago by Clivern
 * ☑**MERGED**: Add test for Base64.decode and Base64.encode
   * perwendel/spark#1257 opened 18 days ago by lacinoire
-* Improve Travis CI build Performance
+* ⚠**WORKS PARTIALLY (only Java8 is working)**: Improve Travis CI build Performance
   * perwendel/spark#1246 opened on Aug 18, 2021 by YunLemon
-* Upgrade SLF4J
+* ☑**UPDATED ALREADY**: Upgrade SLF4J
   * perwendel/spark#1239 opened on Jun 2, 2021 by M-Razavi
 * ❌**TEST FAILING**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
   * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
@@ -42,7 +42,7 @@ This is the current status for each PR:
   * perwendel/spark#1219 opened on Apr 20, 2021 by Lloyd-Pottiger
 * ☑**MERGED**: fix issue perwendel/spark/issues/318 change HashMap to ConcurrentHashMap
   * perwendel/spark#1218 opened on Apr 20, 2021 by Lloyd-Pottiger
-* ☑**UPDATED TO 1.7.36**: fix: upgrade org.slf4j:slf4j-api from 1.7.13 to 1.7.30
+* ☑**UPDATED ALREADY**: fix: upgrade org.slf4j:slf4j-api from 1.7.13 to 1.7.30
   * perwendel/spark#1215 opened on Apr 12, 2021 by M-Razavi
 * ☑**MERGED**: Disable server version response header
   * perwendel/spark#1214 opened on Apr 9, 2021 by robax
