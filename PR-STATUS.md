@@ -8,21 +8,21 @@ This is the current status for each PR:
   * perwendel/spark#1258 opened 15 days ago by Clivern
 * ☑**MERGED**: Add test for Base64.decode and Base64.encode
   * perwendel/spark#1257 opened 18 days ago by lacinoire
-* Improve Travis CI build Performance
+* ⚠**PARTIALLY WORKS (only Java8 is working)**: Improve Travis CI build Performance
   * perwendel/spark#1246 opened on Aug 18, 2021 by YunLemon
-* Upgrade SLF4J
+* ☑**UPDATED ALREADY**: Upgrade SLF4J
   * perwendel/spark#1239 opened on Jun 2, 2021 by M-Razavi
 * ❌**TEST FAILING**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
   * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
-* fix issue perwendel/spark/issues/1204
+* ❌**TEST FAILING**: fix issue perwendel/spark/issues/1204
   * perwendel/spark#1236 opened on May 21, 2021 by FhToday
 * Fix perwendel/spark/issues/688: Priority of accept types is incorrect if the client specifies no q factor
   * perwendel/spark#1235 opened on May 21, 2021 by Chauncey-Xxy
-* Solve the problem of Method not allowed perwendel/spark/issues/405
+* ☑**MERGED**: Solve the problem of Method not allowed (Error 405)
   * perwendel/spark#1234 opened on May 20, 2021 by Bugjudger
 * fix issue perwendel/spark/issues/911 
   * perwendel/spark#1233 opened on May 19, 2021 by cqn2219076254
-* FIX Refactor pom and update versions 
+* ☑**UPDATED ALREADY**: FIX Refactor pom and update versions 
   * perwendel/spark#1232 opened on May 19, 2021 by andres-sacco
 * fix-issue perwendel/spark/issues/339 have ": " in request params map 
   * perwendel/spark#1230 opened on May 19, 2021 by nicetryzz
@@ -42,7 +42,7 @@ This is the current status for each PR:
   * perwendel/spark#1219 opened on Apr 20, 2021 by Lloyd-Pottiger
 * ☑**MERGED**: fix issue perwendel/spark/issues/318 change HashMap to ConcurrentHashMap
   * perwendel/spark#1218 opened on Apr 20, 2021 by Lloyd-Pottiger
-* ☑**UPDATED TO 1.7.36**: fix: upgrade org.slf4j:slf4j-api from 1.7.13 to 1.7.30
+* ☑**UPDATED ALREADY**: fix: upgrade org.slf4j:slf4j-api from 1.7.13 to 1.7.30
   * perwendel/spark#1215 opened on Apr 12, 2021 by M-Razavi
 * ☑**MERGED**: Disable server version response header
   * perwendel/spark#1214 opened on Apr 9, 2021 by robax
