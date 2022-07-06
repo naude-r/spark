@@ -54,3 +54,31 @@ This is the current status for each PR:
   * perwendel/spark#1210 opened on Mar 5, 2021 by kgrech
 * ☑**UPDATED ALREADY**: Update Jetty to fix some CVEs
   * perwendel/spark#1207 opened on Jan 26, 2021 by tobiasstadler
+* CI build and test Java on Linux and MacOS
+  * perwendel/spark#1205 opened on Dec 24, 2020 by carldea
+* HTTP 2 Support Feature request (Major 3.0 candidate)
+  * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
+* Try to fix issue perwendel/spark/issues/903
+  * perwendel/spark#1175 opened on May 31, 2020 by zdh431079799
+* Try to fix issue perwendel/spark/issues/534
+  * perwendel/spark#1174 opened on May 31, 2020 by zdh431079799
+* fix for issue perwendel/spark/issues/911 and perwendel/spark/issues/966
+  * perwendel/spark#1173 opened on May 31, 2020 by xjh33445566
+* Try to Fix issue perwendel/spark/issues/1022 & perwendel/spark/issues/1030 bug-fix
+  * perwendel/spark#1172 opened on May 31, 2020 by Hamojpk
+* Fix issue perwendel/spark/issues/986 & perwendel/spark/issues/1146 bug-fix
+  * perwendel/spark#1171 opened on May 31, 2020 by WingChan1999
+* Add more information methods like port() to get server parameters perwendel/spark/issues/903
+  * perwendel/spark#1169 opened on May 31, 2020 by SSSSam141
+* Solve Issue perwendel/spark/issues/997
+  * perwendel/spark#1167 opened on May 8, 2020 by TTaII
+* Remove unnecessary condition and support HTTP time format
+  * perwendel/spark#1165 opened on Apr 26, 2020 by MingjiHan99
+* Remove redundant null check 
+  * perwendel/spark#1156 opened on Dec 25, 2019 by t-jd
+* Allow configuring endpointIdentificationAlgorithm for jetty SSL
+  * perwendel/spark#1153 opened on Dec 3, 2019 by huangminchn
+* Update Service.java 
+  * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
+* Initiate the servlet instance in exception mapper 
+  * perwendel/spark#1137 opened on Sep 3, 2019 by VithyaG
