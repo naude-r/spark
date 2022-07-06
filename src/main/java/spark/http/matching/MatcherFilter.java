@@ -156,13 +156,6 @@ public class MatcherFilter implements Filter {
                 body.set("");
             }
 
-            if (body.notSet() && hasOtherHandlers) {
-                if (servletRequest instanceof HttpRequestWrapper) {
-                    ((HttpRequestWrapper) servletRequest).notConsumed(true);
-                    return;
-                }
-            }
-
             if (body.notSet()) {
                 int returnStatus;
                 if(httpMethodStr.equals("put") && response.status() == 200) returnStatus = HttpServletResponse.SC_METHOD_NOT_ALLOWED;
