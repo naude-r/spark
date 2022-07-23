@@ -49,7 +49,7 @@ These are the patches included in `unofficial-1`:
 Bug fixes:
 * Method not allowed (Error 405) (perwendel/spark#1234)
 * have ": " in request params map (perwendel/spark#1232)
-* handling the trailing slash (erwendel/spark#1219)
+* handling the trailing slash (perwendel/spark#1219)
 * change HashMap to ConcurrentHashMap (perwendel/spark#1218 , perwendel/spark#1211, perwendel/spark#1210)
 
 Improvements:
