@@ -17,7 +17,7 @@ You can see the merge progress in [PR-STATUS](PR-STATUS.md)
 
 One way to contribute, is by cloning this repository and trying to merge a branch (from the above ones) in your local copy. Run the tests and check the code (to spot any potential issues). if tests fail, you can try to fix the branch. If all tests are passing, and the merge is useful, create a PR in this repository for that branch.
 
-If you want to help even more, contact me and we can get organized.
+If you want to help even more, contact me, and we can get organized.
 
 ## Using it
 
@@ -30,55 +30,28 @@ In order to use this fork version, you need to change your spark dependency.
 <dependency>
   <groupId>com.intellisrc</groupId>
   <artifactId>spark-core</artifactId>
-  <version>2.9.4-unofficial-SNAPSHOT</version>
+  <version>2.9.4-unofficial-1</version>
 </dependency>
 ```
-[Package Information](https://github.com/Intellisrc/spark/packages/1520575)
-
-[How to access Github Packages from Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
 
 ### Gradle
 
 ```groovy
-repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/intellisrc/spark")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-        }
-    }
-}
-```
-Then:
-```groovy
 dependencies {
-    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-SNAPSHOT'
+    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-1'
 }
 ```
-
-You can specify the username and token as environment variables or in `gradle.properties` like:
-
-```groovy
-gpr.user=myuser
-gpr.key=ghp_************************
-```
-
-You need to [create a token](https://github.com/settings/tokens/new) in order to connect to the repository. 
-The only permission that you need to set is: `read:packages`.
-
-[How to access Github Packages from Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry)
 
 ----------------------------------------
 
 # About Spark (official build)
 
-**Spark 2.9.3 is out!!**  <a href="https://github.com/perwendel/spark/blob/master/changeset/2.9.3-changeset.md">Changeset</a> 
+**Spark 2.9.4 is out!!**  <a href="https://github.com/perwendel/spark/blob/master/changeset/2.9.4-changeset.md">Changeset</a> 
 ```xml
 <dependency>
     <groupId>com.sparkjava</groupId>
     <artifactId>spark-core</artifactId>
-    <version>2.9.3</version>
+    <version>2.9.4</version>
 </dependency>
 ```
 
@@ -99,7 +72,7 @@ Getting started
 <dependency>
     <groupId>com.sparkjava</groupId>
     <artifactId>spark-core</artifactId>
-    <version>2.9.2</version>
+    <version>2.9.4</version>
 </dependency>
 ```
 
