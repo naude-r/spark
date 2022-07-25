@@ -1,14 +1,13 @@
-[![](https://img.shields.io/github/workflow/status/intellisrc/spark/Java%20CI%20with%20Maven)](https://github.com/Intellisrc/spark/actions/workflows/maven-publish.yml)
-[![](https://img.shields.io/github/issues-pr-closed/intellisrc/spark)](./PR-STATUS.md)
-[![](https://img.shields.io/github/license/intellisrc/spark.svg)](./LICENSE)
-[![](https://img.shields.io/maven-central/v/com.intellisrc/spark-core.svg)](http://mvnrepository.com/artifact/com.sparkjava/spark-core)
-
-Spark - a tiny web framework for Java 8
-==============================================
+## Spark: a tiny web framework for Java
 
 ----------------------------------------
 
 # About this fork (unofficial build)
+
+[![](https://img.shields.io/github/workflow/status/intellisrc/spark/Java%20CI%20with%20Maven)](https://github.com/Intellisrc/spark/actions/workflows/maven-publish.yml)
+[![](https://img.shields.io/github/issues-pr-closed/intellisrc/spark)](./PR-STATUS.md)
+[![](https://img.shields.io/github/license/intellisrc/spark.svg)](./LICENSE)
+[![](https://img.shields.io/maven-central/v/com.intellisrc/spark-core.svg)](http://mvnrepository.com/artifact/com.sparkjava/spark-core)
 
 The goal of this fork is to update Spark from the community pull requests and update dependencies until the official repository is back to regular maintenance. 
 
