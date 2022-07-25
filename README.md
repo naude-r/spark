@@ -7,7 +7,7 @@
 [![](https://img.shields.io/github/workflow/status/intellisrc/spark/Java%20CI%20with%20Maven)](https://github.com/Intellisrc/spark/actions/workflows/maven-publish.yml)
 [![](https://img.shields.io/github/issues-pr-closed/intellisrc/spark)](./PR-STATUS.md)
 [![](https://img.shields.io/github/license/intellisrc/spark.svg)](./LICENSE)
-[![](https://img.shields.io/maven-central/v/com.intellisrc/spark-core.svg)](http://mvnrepository.com/artifact/com.sparkjava/spark-core)
+[![](https://img.shields.io/maven-central/v/com.intellisrc/spark-core.svg)](http://mvnrepository.com/artifact/com.intellisrc/spark-core)
 
 The goal of this fork is to update Spark from the community pull requests and update dependencies until the official repository is back to regular maintenance. 
 
@@ -66,7 +66,7 @@ Security:
 
 [![](https://img.shields.io/travis/perwendel/spark.svg)](https://travis-ci.org/perwendel/spark)
 [![](https://img.shields.io/github/license/perwendel/spark.svg)](./LICENSE)
-[![](https://img.shields.io/maven-central/v/com.sparkjava/spark-core.svg)]
+[![](https://img.shields.io/maven-central/v/com.sparkjava/spark-core.svg)](http://mvnrepository.com/artifact/com.sparkjava/spark-core)
 
 **Spark 2.9.4 is out!!**  <a href="https://github.com/perwendel/spark/blob/master/changeset/2.9.4-changeset.md">Changeset</a> 
 ```xml
