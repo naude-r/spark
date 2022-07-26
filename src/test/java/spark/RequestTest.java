@@ -23,6 +23,7 @@ public class RequestTest {
     private static final String THE_SERVLET_PATH = "/the/servlet/path";
     private static final String THE_CONTEXT_PATH = "/the/context/path";
     private static final String THE_MATCHED_ROUTE = "/users/:username";
+    private static final String THE_MATCHED_ROUTE_REQUEST = "/users/bob";
     private static final String BEFORE_MATCHED_ROUTE = "/users/:before";
     private static final String AFTER_MATCHED_ROUTE = "/users/:after";
     private static final String AFTERAFTER_MATCHED_ROUTE = "/users/:afterafter";
@@ -34,7 +35,7 @@ public class RequestTest {
     Request request;
 
     RouteMatch match = new RouteMatch(null, "/hi", "/hi", "text/html", null);
-    RouteMatch matchWithParams = new RouteMatch(null, "/users/:username", "/users/bob", "text/html", null);
+    RouteMatch matchWithParams = new RouteMatch(null, THE_MATCHED_ROUTE, THE_MATCHED_ROUTE_REQUEST, "text/html", null);
 
     @Before
     public void setup() {
@@ -125,7 +126,7 @@ public class RequestTest {
         Request request = new Request(matchWithParams, servletRequest);
         assertEquals("Should have returned the matched route", THE_MATCHED_ROUTE, request.matchedPath());
         try {
-            http.get("/users/bob");
+            http.get(THE_MATCHED_ROUTE_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
         }

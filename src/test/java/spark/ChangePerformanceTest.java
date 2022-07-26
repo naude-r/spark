@@ -6,6 +6,7 @@ import org.junit.Test;
 import spark.util.SparkTestUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -22,7 +23,7 @@ public class ChangePerformanceTest {
 
     private static final SparkTestUtil http = new SparkTestUtil(PORT);
 
-    private static Map<String, Book> books = new HashMap<String, Book>();
+    private static final Map<String, Book> books = new HashMap<>();
 
     private static final int testNumber = 1000;
 
@@ -108,6 +109,25 @@ public class ChangePerformanceTest {
         Spark.awaitInitialization();
     }
 
+    @Test
+    public void testGetPerformance() {
+        try {
+            testPostPerformance(); // Add all books first
+            Map<String, String> requestHeader = new HashMap<>();
+            requestHeader.put("Host", "localhost:" + PORT);
+            requestHeader.put("User-Agent", "curl/7.55.1");
+            long startTime = System.currentTimeMillis();
+            for (int i = 0; i < testNumber; i++) {
+                String path = BOOKS + "/" + (new ArrayList<>(books.keySet()).get(i));
+                http.doMethod("GET", path, "", false, "*/*", requestHeader);
+            }
+            long endTime = System.currentTimeMillis();
+            System.out.println("The time to run the GET method " + testNumber + " times is: " + (endTime - startTime) + "ms");
+            assertEquals(testNumber, books.size());
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Test
     public void testPostPerformance() {
         try {

@@ -59,7 +59,7 @@ public abstract class StringUtils {
             return true;
         }
         for (int i = 0; i < strLen; i++) {
-            if (Character.isWhitespace(cs.charAt(i)) == false) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
                 return false;
             }
         }
@@ -138,7 +138,7 @@ public abstract class StringUtils {
         // the index of an occurrence we've found, or -1
         int patLen = oldPattern.length();
         while (index >= 0) {
-            sb.append(inString.substring(pos, index));
+            sb.append(inString, pos, index);
             sb.append(newPattern);
             pos = index + patLen;
             index = inString.indexOf(oldPattern, pos);
@@ -405,4 +405,16 @@ public abstract class StringUtils {
         return trimmed;
     }
 
+    /**
+     * Remove characters that we don't need from a RegEx path
+     * @param regex path
+     * @return string without needed characters
+     */
+    public static String cleanRegex(String regex) {
+        regex = regex.substring(2);
+        if(regex.endsWith("/")) {
+            regex = regex.substring(0, regex.length() - 1);
+        }
+        return regex;
+    }
 }

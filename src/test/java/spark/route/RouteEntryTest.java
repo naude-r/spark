@@ -49,30 +49,6 @@ public class RouteEntryTest {
     }
 
     @Test
-    public void testMatches_RouteDoesNotEndWithSlash() {
-
-        RouteEntry entry = new RouteEntry();
-        entry.httpMethod = HttpMethod.get;
-        entry.path = "/test";
-
-        assertFalse("Should return false because route path does not end with a slash, does not end with " +
-                            "a wildcard, and the route pah supplied ends with a slash ",
-                    entry.matches(HttpMethod.get, "/test/")
-        );
-    }
-
-    @Test
-    public void testMatches_PathDoesNotEndInSlash() {
-
-        RouteEntry entry = new RouteEntry();
-        entry.httpMethod = HttpMethod.get;
-        entry.path = "/test/";
-
-        assertFalse("Should return false because route path ends with a slash while path supplied as parameter does" +
-                            "not end with a slash", entry.matches(HttpMethod.get, "/test"));
-    }
-
-    @Test
     public void testMatches_MatchingPaths() {
 
         RouteEntry entry = new RouteEntry();
@@ -103,6 +79,66 @@ public class RouteEntryTest {
 
         assertFalse("Should return false because path does not match route path",
                     entry.matches(HttpMethod.get, "/test/other"));
+    }
+
+    @Test
+    public void testMatches_PathsMatchWithParam() {
+
+        RouteEntry entry = new RouteEntry();
+        entry.httpMethod = HttpMethod.get;
+        entry.path = "/test/:name";
+
+        assertTrue("Should return true because path matches route path",
+                    entry.matches(HttpMethod.get, "/test/other"));
+    }
+
+    @Test
+    public void testMatches_RegexContains() {
+
+        RouteEntry entry = new RouteEntry();
+        entry.httpMethod = HttpMethod.get;
+        entry.path = "~/private";
+
+        assertTrue("Should return true because path matches route path",
+                   entry.matches(HttpMethod.get, "/panel/private-room/my.page"));
+        assertFalse("Should return false because path does not matches route path",
+                    entry.matches(HttpMethod.get, "/there/is/no/privacy/here.page"));
+    }
+    @Test
+    public void testMatches_RegexBeginning() {
+
+        RouteEntry entry = new RouteEntry();
+        entry.httpMethod = HttpMethod.get;
+        entry.path = "~/^\\/(user|login)";
+
+        assertTrue("Should return true because path matches route path",
+                   entry.matches(HttpMethod.get, "/users.list"));
+        assertFalse("Should return false because path does not matches route path",
+                    entry.matches(HttpMethod.get, "/admin.jsp"));
+    }
+    @Test
+    public void testMatches_RegexFull() {
+
+        RouteEntry entry = new RouteEntry();
+        entry.httpMethod = HttpMethod.get;
+        entry.path = "~/^\\/(?<topic>[^-]+)-(?<code>[^-]+)-(?<text>[^.]+)\\.(?<ext>.*)$/";
+
+        assertTrue("Should return true because path matches route path",
+                   entry.matches(HttpMethod.get, "/login-1233-shake%20hands.html"));
+        assertFalse("Should return false because path does not matches route path",
+                    entry.matches(HttpMethod.get, "/login-1233.html"));
+    }
+    @Test
+    public void testMatches_RegexEnding() {
+
+        RouteEntry entry = new RouteEntry();
+        entry.httpMethod = HttpMethod.get;
+        entry.path = "~/\\.html?$/";
+
+        assertTrue("Should return true because path matches route path",
+                   entry.matches(HttpMethod.get, "/beer/hold-into-my-glass.htm"));
+        assertFalse("Should return false because path does not matches route path",
+                   entry.matches(HttpMethod.get, "/beer/hold-into-my-glass.pdf"));
     }
 
     @Test

@@ -32,7 +32,6 @@ import spark.ExceptionMapper;
 import spark.HaltException;
 import spark.RequestResponseFactory;
 import spark.Response;
-import spark.embeddedserver.jetty.HttpRequestWrapper;
 import spark.route.HttpMethod;
 import spark.serialization.SerializerChain;
 import spark.staticfiles.StaticFilesConfiguration;
@@ -51,12 +50,12 @@ public class MatcherFilter implements Filter {
 
     private final StaticFilesConfiguration staticFiles;
 
-    private spark.route.Routes routeMatcher;
-    private SerializerChain serializerChain;
-    private ExceptionMapper exceptionMapper;
+    private final spark.route.Routes routeMatcher;
+    private final SerializerChain serializerChain;
+    private final ExceptionMapper exceptionMapper;
 
-    private boolean externalContainer;
-    private boolean hasOtherHandlers;
+    private final boolean externalContainer;
+    private final boolean hasOtherHandlers;
 
     /**
      * Constructor

@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -119,12 +121,16 @@ public class Request {
     }
 
     protected void changeMatch(RouteMatch match) {
-        List<String> requestList = SparkUtils.convertRouteToList(match.getRequestURI());
-        List<String> matchedList = SparkUtils.convertRouteToList(match.getMatchUri());
+        if(match.getMatchUri().startsWith("~/")) {
+            params = getRegexParams(match);
+        } else {
+            List<String> requestList = SparkUtils.convertRouteToList(match.getRequestURI());
+            List<String> matchedList = SparkUtils.convertRouteToList(match.getMatchUri());
 
-        this.matchedPath = match.getMatchUri();
-        params = getParams(requestList, matchedList);
-        splat = getSplat(requestList, matchedList);
+            this.matchedPath = match.getMatchUri();
+            params = getParams(requestList, matchedList);
+            splat = getSplat(requestList, matchedList);
+        }
     }
 
     /**
@@ -153,6 +159,44 @@ public class Request {
         } else {
             return params.get(param.toLowerCase()); // NOSONAR
         }
+    }
+
+    /**
+     * Return numbered param
+     * @param id index of param
+     * @return the value of the parameter
+     */
+    public String params(int id) {
+        if(id <= 0) {
+            LOG.warn("Param index should start from 1, {} given (Setting it to 1).", id);
+            id = 1;
+        }
+        return params.containsKey(String.format("group%d", id))
+            ? params.get(String.format("group%d", id))
+            : new ArrayList<>(params.values()).get(id - 1);
+    }
+
+    /**
+     * Gets the param, or returns default value
+     *
+     * @param param the parameter
+     * @param defaultValue the default value
+     * @return the value of the provided param, or default if value is null
+     */
+    public String paramOrDefault(String param, String defaultValue) {
+        String value = params(param);
+        return value != null ? value : defaultValue;
+    }
+
+    /**
+     * Gets the param by index or returns a value
+     * @param index of the parameter
+     * @param defaultValue  the default value
+     * @return the value of the provided param index, or default if value is null
+     */
+    public String paramOrDefault(int index, String defaultValue) {
+        String value = params(index);
+        return value != null ? value : defaultValue;
     }
 
     /**
@@ -397,7 +441,7 @@ public class Request {
      */
     public Set<String> attributes() {
         Set<String> attrList = new HashSet<>();
-        Enumeration<String> attributes = (Enumeration<String>) servletRequest.getAttributeNames();
+        Enumeration<String> attributes = servletRequest.getAttributeNames();
         while (attributes.hasMoreElements()) {
             attrList.add(attributes.nextElement());
         }
@@ -542,6 +586,46 @@ public class Request {
         return Collections.unmodifiableMap(params);
     }
 
+    // Java 8 doesn't expose Pattern.namedGroups(), se we have extract them again:
+    private static Set<String> getNamedGroups(String regex) {
+        Set<String> namedGroups = new TreeSet<>();
+        Matcher m = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z0-9]*)>").matcher(regex);
+        while (m.find()) {
+            namedGroups.add(m.group(1));
+        }
+        return namedGroups;
+    }
+
+    /**
+     * Get params from regex
+     * @param match RouteMatch object
+     * @return parameters found by regex
+     */
+    private static Map<String, String> getRegexParams(final RouteMatch match) {
+        Map<String, String> params = new HashMap<>();
+        String uri = match.getRequestURI();
+        String path = StringUtils.cleanRegex(match.getMatchUri());
+        // Only process regex if it contains groups:
+        if(path.contains("(") && path.contains(")")) {
+            Pattern pattern = Pattern.compile(path);
+            Matcher matcher = pattern.matcher(uri);
+            if(matcher.find()) {
+                for(String name : getNamedGroups(path)) {
+                    params.put(name, matcher.group(name));
+                }
+            }
+            matcher.reset();
+            int i = 0;
+            while(matcher.find()) {
+                for(int j = 0; j < matcher.groupCount() + 1; j++) {
+                    params.put(String.format("group%d", i), matcher.group(j));
+                    i++;
+                }
+            }
+        }
+        return params;
+    }
+
     private static List<String> getSplat(List<String> request, List<String> matched) {
         int nbrOfRequestParts = request.size();
         int nbrOfMatchedParts = matched.size();
@@ -567,7 +651,7 @@ public class Request {
                 try {
                     String decodedSplat = URLDecoder.decode(splatParam.toString(), "UTF-8");
                     splat.add(decodedSplat);
-                } catch (UnsupportedEncodingException e) {
+                } catch (UnsupportedEncodingException ignore) {
                 }
             }
         }

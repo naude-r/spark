@@ -30,9 +30,9 @@ public class MimeParse {
 
         @Override
         public String toString() {
-            StringBuffer s = new StringBuffer("('" + type + "', '" + subType + "', {");
+            StringBuilder s = new StringBuilder("('" + type + "', '" + subType + "', {");
             for (String k : params.keySet()) {
-                s.append("'" + k + "':'" + params.get(k) + "',");
+                s.append("'").append(k).append("':'").append(params.get(k)).append("',");
             }
             return s.append("})").toString();
         }
@@ -85,7 +85,7 @@ public class MimeParse {
      * in the params dictionary, filling it in with a proper default if
      * necessary.
      *
-     * @param range
+     * @param range media range
      */
     private static ParseResults parseMediaRange(String range) {
         ParseResults results = parseMimeType(range);
@@ -132,8 +132,8 @@ public class MimeParse {
      * the best match, or (-1, 0) if no match was found. Just as for
      * quality_parsed(), 'parsed_ranges' must be a list of parsed media ranges.
      *
-     * @param mimeType
-     * @param parsedRanges
+     * @param mimeType Mime Type
+     * @param parsedRanges Parsed ranges
      */
     private static FitnessAndQuality fitnessAndQualityParsed(String mimeType, Collection<ParseResults> parsedRanges) {
         int bestFitness = -1;

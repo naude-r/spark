@@ -123,6 +123,10 @@ final class RequestWrapper extends Request {
     public String params(String param) {
         return delegate.params(param);
     }
+    @Override
+    public String params(int index) {
+        return delegate.params(index);
+    }
 
     @Override
     public String[] splat() {
