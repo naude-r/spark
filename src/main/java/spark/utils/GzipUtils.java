@@ -58,24 +58,30 @@ public class GzipUtils {
      */
     public static OutputStream checkAndWrap(HttpServletRequest httpRequest,
                                             HttpServletResponse httpResponse,
-                                            boolean requireWantsHeader) throws
+                                            boolean requireWantsHeader, boolean compressed) throws
                                                                         IOException {
         OutputStream responseStream = httpResponse.getOutputStream();
 
-        // GZIP Support handled here. First we must ensure that we want to use gzip, and that the client supports gzip
-        boolean acceptsGzip = Collections.list(httpRequest.getHeaders(ACCEPT_ENCODING)).stream().anyMatch(STRING_MATCH);
-        boolean wantGzip = httpResponse.getHeaders(CONTENT_ENCODING).contains(GZIP);
+        if(!compressed) {
+            // GZIP Support handled here. First we must ensure that we want to use gzip, and that the client supports gzip
+            boolean acceptsGzip = Collections.list(httpRequest.getHeaders(ACCEPT_ENCODING)).stream().anyMatch(STRING_MATCH);
+            boolean wantGzip = httpResponse.getHeaders(CONTENT_ENCODING).contains(GZIP);
 
-        if (acceptsGzip) {
-            if (!requireWantsHeader || wantGzip) {
-                responseStream = new GZIPOutputStream(responseStream, true);
-                addContentEncodingHeaderIfMissing(httpResponse, wantGzip);
+            if (acceptsGzip) {
+                if (!requireWantsHeader || wantGzip) {
+                    responseStream = new GZIPOutputStream(responseStream, true);
+                    addContentEncodingHeaderIfMissing(httpResponse, wantGzip);
+                }
             }
         }
-
         return responseStream;
     }
 
+    /**
+     * Add GZIP header if it doesn't exist
+     * @param response HTTP Response
+     * @param wantsGzip means if header is set or not (name is reused from above method)
+     */
     private static void addContentEncodingHeaderIfMissing(HttpServletResponse response, boolean wantsGzip) {
         if (!wantsGzip) {
             response.setHeader(CONTENT_ENCODING, GZIP);

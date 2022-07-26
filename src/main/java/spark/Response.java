@@ -40,6 +40,8 @@ public class Response {
     private HttpServletResponse response;
     private String body;
 
+    private boolean alreadyGziped = false;
+
     protected Response() {
         // Used by wrapper
     }
@@ -314,4 +316,18 @@ public class Response {
         response.addCookie(cookie);
     }
 
+    /**
+     * Specify to Spark that the content we are sending is already compressed
+     * @param gzip true if its already compressed
+     */
+    public void isContentCompressed(boolean gzip) {
+        alreadyGziped = gzip;
+    }
+
+    /**
+     * @return If content is already compressed
+     */
+    public boolean isAlreadyCompressed() {
+        return alreadyGziped;
+    }
 }

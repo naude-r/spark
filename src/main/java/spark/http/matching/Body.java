@@ -58,7 +58,7 @@ final class Body {
 
     public void serializeTo(HttpServletResponse httpResponse,
                             SerializerChain serializerChain,
-                            HttpServletRequest httpRequest) throws IOException {
+                            HttpServletRequest httpRequest, boolean compressed) throws IOException {
 
         if (!httpResponse.isCommitted()) {
             if (httpResponse.getContentType() == null) {
@@ -66,7 +66,7 @@ final class Body {
             }
 
             // Check if GZIP is wanted/accepted and in that case handle that
-            OutputStream responseStream = GzipUtils.checkAndWrap(httpRequest, httpResponse, true);
+            OutputStream responseStream = GzipUtils.checkAndWrap(httpRequest, httpResponse, true, compressed);
 
             // Serialize the body to output stream
             serializerChain.process(responseStream, content);

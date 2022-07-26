@@ -188,7 +188,7 @@ public class MatcherFilter implements Filter {
         }
 
         if (body.isSet()) {
-            body.serializeTo(httpResponse, serializerChain, httpRequest);
+            body.serializeTo(httpResponse, serializerChain, httpRequest, responseWrapper.isAlreadyCompressed());
         } else if (chain != null) {
             chain.doFilter(httpRequest, httpResponse);
         }
