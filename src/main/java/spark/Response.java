@@ -54,8 +54,18 @@ public class Response {
         // In such case, Spark won't compress the output and will ensure the BROTLI header is set.
         BROTLI_COMPRESSED;
 
+        /**
+         * @return true if output is reported to be already compressed
+         */
         public boolean isCompressed() {
             return this == GZIP_COMPRESSED || this == BROTLI_COMPRESSED;
+        }
+
+        /**
+         * @return true if Spark is notified to compress output
+         */
+        public boolean toCompress() {
+            return this == GZIP_COMPRESS || this == BROTLI_COMPRESS;
         }
     }
 

@@ -108,7 +108,7 @@ public class CompressUtil {
                     if (matcher.find()) {
                         String algo = matcher.group(1);
                         if (!algo.equals("*")) {
-                            accepts.put(algo, matcher.group(3) != null ? Float.parseFloat(matcher.group(3)) : 1f);
+                            accepts.put(algo.trim(), matcher.group(3) != null ? Float.parseFloat(matcher.group(3)) : 1f);
                         }
                     }
                 }
