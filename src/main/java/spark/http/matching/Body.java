@@ -22,7 +22,8 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import spark.utils.GzipUtils;
+import spark.Response;
+import spark.utils.CompressUtil;
 import spark.serialization.SerializerChain;
 
 /**
@@ -58,7 +59,7 @@ final class Body {
 
     public void serializeTo(HttpServletResponse httpResponse,
                             SerializerChain serializerChain,
-                            HttpServletRequest httpRequest, boolean compressed) throws IOException {
+                            HttpServletRequest httpRequest, Response.Compression compression) throws IOException {
 
         if (!httpResponse.isCommitted()) {
             if (httpResponse.getContentType() == null) {
@@ -66,7 +67,7 @@ final class Body {
             }
 
             // Check if GZIP is wanted/accepted and in that case handle that
-            OutputStream responseStream = GzipUtils.checkAndWrap(httpRequest, httpResponse, true, compressed);
+            OutputStream responseStream = CompressUtil.checkAndWrap(httpRequest, httpResponse, compression);
 
             // Serialize the body to output stream
             serializerChain.process(responseStream, content);

@@ -14,17 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package spark.examples.gzip;
+package spark.examples.brotli;
 
-import static spark.Response.Compression.*;
+import static spark.Response.Compression.BROTLI_COMPRESS;
+import static spark.Response.Compression.GZIP_COMPRESS;
 import static spark.Spark.awaitInitialization;
 import static spark.Spark.get;
 import static spark.Spark.staticFileLocation;
 
 /**
- * Example showing off the different GZIP features in Spark.
+ * Created by A.Lepe (2022-07-27) based on GzipExample
+ * Example to test Brotli compression
  */
-public class GzipExample {
+public class BrotliExample {
 
     public static final String FO_SHIZZY = "Fo shizzy";
     public static final String CONTENT = "the content that will be compressed/decompressed";
@@ -44,7 +46,7 @@ public class GzipExample {
     public static void addRoutes() {
         get("/hello", (q, a) -> FO_SHIZZY);
         get(PATH, (req, resp) -> {
-            resp.compression = GZIP_COMPRESS;
+            resp.compression = BROTLI_COMPRESS;
             return CONTENT;
         });
     }
@@ -54,6 +56,6 @@ public class GzipExample {
     }
 
     public static String getAndDecompress() throws Exception {
-        return GzipClient.getAndDecompress("http://localhost:4567" + PATH);
+        return BrotliClient.getAndDecompress("http://localhost:4567" + PATH);
     }
 }

@@ -32,7 +32,6 @@ import spark.ExceptionMapper;
 import spark.HaltException;
 import spark.RequestResponseFactory;
 import spark.Response;
-import spark.embeddedserver.jetty.HttpRequestWrapper;
 import spark.route.HttpMethod;
 import spark.serialization.SerializerChain;
 import spark.staticfiles.StaticFilesConfiguration;
@@ -188,7 +187,7 @@ public class MatcherFilter implements Filter {
         }
 
         if (body.isSet()) {
-            body.serializeTo(httpResponse, serializerChain, httpRequest, responseWrapper.isAlreadyCompressed());
+            body.serializeTo(httpResponse, serializerChain, httpRequest, responseWrapper.compression);
         } else if (chain != null) {
             chain.doFilter(httpRequest, httpResponse);
         }

@@ -37,7 +37,7 @@ import spark.resource.ClassPathResourceHandler;
 import spark.resource.ExternalResource;
 import spark.resource.ExternalResourceHandler;
 import spark.utils.Assert;
-import spark.utils.GzipUtils;
+import spark.utils.CompressUtil;
 import spark.utils.IOUtils;
 
 /**
@@ -54,7 +54,7 @@ public class StaticFilesConfiguration {
 
     public static StaticFilesConfiguration servletInstance = new StaticFilesConfiguration();
 
-    private Map<String, String> customHeaders = new HashMap<>();
+    private final Map<String, String> customHeaders = new HashMap<>();
 
     /**
      * Attempt consuming using either static resource handlers or jar resource handlers
@@ -98,7 +98,7 @@ public class StaticFilesConfiguration {
                     customHeaders.forEach(httpResponse::setHeader); //add all user-defined headers to response
 
                     try (InputStream inputStream = resource.getInputStream();
-                         OutputStream wrappedOutputStream = GzipUtils.checkAndWrap(httpRequest, httpResponse, false, false)) {
+                         OutputStream wrappedOutputStream = CompressUtil.checkAndWrap(httpRequest, httpResponse)) {
                         IOUtils.copy(inputStream, wrappedOutputStream);
                     }
 
