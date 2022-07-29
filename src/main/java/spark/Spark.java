@@ -17,6 +17,7 @@
 package spark;
 
 import spark.routematch.RouteMatch;
+import spark.ssl.SslStores;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -985,7 +986,7 @@ public class Spark {
     /**
      * Set the default response transformer. All requests not using a custom transformer will use this one
      *
-     * @param transformer
+     * @param transformer response transformer
      */
     public static void defaultResponseTransformer(ResponseTransformer transformer) {
         getInstance().defaultResponseTransformer(transformer);
@@ -1282,7 +1283,7 @@ public class Spark {
 
     /**
      * Sets Spark to trust Forwarded, X-Forwarded-Host, X-Forwarded-Server, X-Forwarded-For, X-Forwarded-Proto, X-Proxied-Https headers
-     * as defined at https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/server/ForwardedRequestCustomizer.html
+     * as defined at <a href="https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/server/ForwardedRequestCustomizer.html">...</a>
      */
     public static void trustForwardHeaders() {
         getInstance().trustForwardHeaders();
@@ -1290,7 +1291,7 @@ public class Spark {
 
     /**
      * Sets Spark to NOT trust Forwarded, X-Forwarded-Host, X-Forwarded-Server, X-Forwarded-For, X-Forwarded-Proto, X-Proxied-Https headers
-     * as defined at https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/server/ForwardedRequestCustomizer.html
+     * as defined at <a href="https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/server/ForwardedRequestCustomizer.html">...</a>
      */
     public static void untrustForwardHeaders() {
         getInstance().untrustForwardHeaders();

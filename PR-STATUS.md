@@ -54,11 +54,14 @@ This is the current status for each PR:
   * perwendel/spark#1210 opened on Mar 5, 2021 by kgrech
 * :green_circle: **UPDATED ALREADY**: Update Jetty to fix some CVEs
   * perwendel/spark#1207 opened on Jan 26, 2021 by tobiasstadler
-* CI build and test Java on Linux and MacOS
+  
+-----
+
+* :yellow_circle: **PENDING**: CI build and test Java on Linux and MacOS
   * perwendel/spark#1205 opened on Dec 24, 2020 by carldea
-* HTTP 2 Support Feature request (Major 3.0 candidate)
+* :yellow_circle: **PENDING** (2 tests failing): HTTP 2 Support Feature request (Major 3.0 candidate)
   * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
-* Try to fix issue perwendel/spark/issues/903
+* :green_circle: **MERGED**: Try to fix issue perwendel/spark/issues/903
   * perwendel/spark#1175 opened on May 31, 2020 by zdh431079799
 * Try to fix issue perwendel/spark/issues/534
   * perwendel/spark#1174 opened on May 31, 2020 by zdh431079799
