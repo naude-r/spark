@@ -34,7 +34,7 @@ import org.eclipse.jetty.server.session.SessionHandler;
  */
 public class JettyHandler extends SessionHandler {
 
-    private Filter filter;
+    private final Filter filter;
 
     private Set<String> consume;
 
@@ -51,9 +51,7 @@ public class JettyHandler extends SessionHandler {
 
         HttpRequestWrapper wrapper = new HttpRequestWrapper(request);
         if(consume!=null && consume.contains(baseRequest.getRequestURI())){
-            if (wrapper instanceof HttpRequestWrapper) {
-                ((HttpRequestWrapper) wrapper).notConsumed(true);
-            }
+            wrapper.notConsumed(true);
         }
         else {
             filter.doFilter(wrapper, response, null);

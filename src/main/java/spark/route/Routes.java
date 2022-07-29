@@ -17,7 +17,7 @@
 package spark.route;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class Routes {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(Routes.class);
     private static final char SINGLE_QUOTE = '\'';
 
-    private List<RouteEntry> routes;
+    private final List<RouteEntry> routes;
 
     public static Routes create() {
         return new Routes();
@@ -101,7 +101,7 @@ public class Routes {
 
         for (RouteEntry routeEntry : routeEntries) {
             if (acceptType != null) {
-                String bestMatch = MimeParse.bestMatch(Arrays.asList(routeEntry.acceptedType), acceptType);
+                String bestMatch = MimeParse.bestMatch(Collections.singletonList(routeEntry.acceptedType), acceptType);
 
                 if (routeWithGivenAcceptType(bestMatch)) {
                     matchSet.add(new RouteMatch(routeEntry.target, routeEntry.path, path, acceptType, httpMethod));
@@ -119,9 +119,8 @@ public class Routes {
      */
     public List<RouteMatch> findAll() {
         List<RouteMatch> matchSet = new ArrayList<>();
-        List<RouteEntry> routeEntries = routes;
 
-        for (RouteEntry routeEntry : routeEntries) {
+        for (RouteEntry routeEntry : routes) {
             matchSet.add(new RouteMatch(routeEntry.target, routeEntry.path, "ALL_ROUTES", routeEntry.acceptedType, routeEntry.httpMethod));
         }
 
@@ -176,7 +175,7 @@ public class Routes {
             throw new IllegalArgumentException("path cannot be null or blank");
         }
 
-        return removeRoute((HttpMethod) null, path);
+        return removeRoute(null, path);
     }
 
     //////////////////////////////////////////////////
@@ -212,7 +211,7 @@ public class Routes {
     }
 
     private List<RouteEntry> findTargetsForRequestedRoute(HttpMethod httpMethod, String path) {
-        List<RouteEntry> matchSet = new ArrayList<RouteEntry>();
+        List<RouteEntry> matchSet = new ArrayList<>();
         for (RouteEntry entry : routes) {
             if (entry.matches(httpMethod, path)) {
                 matchSet.add(entry);
@@ -253,7 +252,7 @@ public class Routes {
             }
 
             if (routeEntry.matches(httpMethodToMatch, path)) {
-                LOG.debug("Removing path {}", path, httpMethod == null ? "" : " with HTTP method " + httpMethod);
+                LOG.debug("Removing path {}{}", path, httpMethod == null ? "" : " with HTTP method " + httpMethod);
 
                 forRemoval.add(routeEntry);
             }

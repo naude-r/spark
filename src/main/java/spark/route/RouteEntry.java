@@ -17,8 +17,11 @@
 package spark.route;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
+import jdk.nashorn.internal.runtime.regexp.RegExp;
 import spark.utils.SparkUtils;
+import spark.utils.StringUtils;
 
 /**
  * Class that holds information about routes
@@ -58,14 +61,15 @@ class RouteEntry {
 
     //CS304 Issue link: https://github.com/perwendel/spark/issues/1151
     private boolean matchPath(String path) { // NOSONAR
-        if (!this.path.endsWith("*") && ((path.endsWith("/") && !this.path.endsWith("/")) // NOSONAR
-                || (this.path.endsWith("/") && !path.endsWith("/")))) {
-            // One and not both ends with slash
-            return false;
-        }
-        if (this.path.equals(path)) {
+        if (!this.path.endsWith("*") && this.path.equals(path)) {
             // Paths are the same
             return true;
+        }
+        // Regex expressions should start with '~/'  (end '/' is optional)
+        if(this.path.startsWith("~/")) {
+            String routePath = StringUtils.cleanRegex(this.path);
+            Pattern pattern = Pattern.compile(routePath, Pattern.CASE_INSENSITIVE);
+            return pattern.matcher(path).find();
         }
 
         // check params
