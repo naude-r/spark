@@ -55,8 +55,6 @@ This is the current status for each PR:
     * perwendel/spark#1169 opened on May 31, 2020 by SSSSam141
 
 
-* Remove unnecessary condition and support HTTP time format
-  * perwendel/spark#1165 opened on Apr 26, 2020 by MingjiHan99
 * Remove redundant null check 
   * perwendel/spark#1156 opened on Dec 25, 2019 by t-jd
 * Allow configuring endpointIdentificationAlgorithm for jetty SSL
@@ -78,6 +76,8 @@ This is the current status for each PR:
     * perwendel/spark#1220 opened on Apr 21, 2021 by Lloyd-Pottiger
 * :red_circle: **REJECTED (complex implementation for simple solution)**: Solve Issue perwendel/spark/issues/997
     * perwendel/spark#1167 opened on May 8, 2020 by TTaII
+* :red_circle: **REJECTED (It contains hard-coded Time zones)**: Remove unnecessary condition and support HTTP time format
+    * perwendel/spark#1165 opened on Apr 26, 2020 by MingjiHan99
 
 ### To Fix / To Discuss
 

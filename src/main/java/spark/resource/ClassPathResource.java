@@ -43,7 +43,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 
     private final String path;
 
-    private ClassLoader classLoader;
+    private final ClassLoader classLoader;
 
     private Class<?> clazz;
 
@@ -101,13 +101,8 @@ public class ClassPathResource extends AbstractFileResolvingResource {
                 return true;
             }
         }
-        if (path.contains("")) {
-            path = StringUtils.cleanPath(path);
-            if (path.contains("../")) {
-                return true;
-            }
-        }
-        return false;
+        path = StringUtils.cleanPath(path);
+        return path.contains("../");
     }
 
     /**
@@ -252,11 +247,8 @@ public class ClassPathResource extends AbstractFileResolvingResource {
         if (obj instanceof ClassPathResource) {
             ClassPathResource otherRes = (ClassPathResource) obj;
 
-            ClassLoader thisLoader = this.classLoader;
-            ClassLoader otherLoader = otherRes.classLoader;
-
             return (this.path.equals(otherRes.path) &&
-                    thisLoader.equals(otherLoader) &&
+                    this.classLoader.equals(otherRes.classLoader) &&
                     this.clazz.equals(otherRes.clazz));
         }
         return false;
