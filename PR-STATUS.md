@@ -53,14 +53,12 @@ This is the current status for each PR:
   * perwendel/spark#1173 opened on May 31, 2020 by xjh33445566
 * :green_circle: **SOLVED ALREADY** (by carldea): Add more information methods like port() to get server parameters perwendel/spark/issues/903
     * perwendel/spark#1169 opened on May 31, 2020 by SSSSam141
-
-
-* Remove redundant null check 
+* :green_circle: **SOLVED ALREADY**: Remove redundant null check 
   * perwendel/spark#1156 opened on Dec 25, 2019 by t-jd
-* Allow configuring endpointIdentificationAlgorithm for jetty SSL
-  * perwendel/spark#1153 opened on Dec 3, 2019 by huangminchn
-* :yellow_circle: **PENDING (Approach may not be the best)**: Update Service.java 
-  * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
+* :green_circle: **MERGED**: Allow configuring endpointIdentificationAlgorithm for jetty SSL
+    * perwendel/spark#1153 opened on Dec 3, 2019 by huangminchn
+
+
 * Initiate the servlet instance in exception mapper 
   * perwendel/spark#1137 opened on Sep 3, 2019 by VithyaG
 
@@ -95,3 +93,5 @@ This is the current status for each PR:
     * perwendel/spark#1172 opened on May 31, 2020 by Hamojpk
 * :yellow_circle: **MERGE FAILS (It seems the issues were already solved)**: Fix issue perwendel/spark/issues/986 & perwendel/spark/issues/1146 bug-fix
     * perwendel/spark#1171 opened on May 31, 2020 by WingChan1999
+* :yellow_circle: **PENDING (Approach may not be the best)**: Update Service.java
+    * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
