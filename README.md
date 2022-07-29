@@ -9,15 +9,9 @@
 [![](https://img.shields.io/github/license/intellisrc/spark.svg)](./LICENSE)
 [![](https://img.shields.io/maven-central/v/com.intellisrc/spark-core.svg)](http://mvnrepository.com/artifact/com.intellisrc/spark-core)
 
-The goal of this fork is to update Spark from the community pull requests and update dependencies until the official repository is back to regular maintenance. 
+The goal of this fork is to update Spark from the community pull requests and update dependencies until the official repository is back to regular maintenance.
 
 You can see the merge progress in [PR-STATUS](PR-STATUS.md)
-
-## How to contribute
-
-One way to contribute, is by cloning this repository and trying to merge a branch (from the above ones) in your local copy. Run the tests and check the code (to spot any potential issues). if tests fail, you can try to fix the branch. If all tests are passing, and the merge is useful, create a PR in this repository for that branch.
-
-If you want to help even more, contact me, and we can get organized.
 
 ## Using it
 
@@ -59,6 +53,29 @@ Improvements:
 Security:
 * Upgrade Dependencies (perwendel/spark#1239 , perwendel/spark#1232 , perwendel/spark#1215 , perwendel/spark#1207)
 * Disable server version response header (perwendel/spark#1214)
+
+## Release 2
+
+Bug fixes:
+* Initiate the servlet instance in exception mapper (perwendel#1137)
+
+Improvements:
+* Added extra information to get server parameters (perwendel/spark#1175)
+* ResponseTransformer should have access to Request & Response (perwendel/spark#1174)
+* Allow to set default content-type (perwendel#1173)
+* Set custom session store (perwendel#1173)
+* Allow configuring endpointIdentificationAlgorithm for jetty SSL (perwendel#1153)
+
+## Release 3
+
+Bug fixes:
+* Fixed GZip content-length problem - Issue: perwendel/spark/issues/1157 (also #459, #742 and #937)
+
+Improvements:
+* Added additional mime types (like 'video/mp4') - Issue: perwendel/spark/issues/997
+* Allow to override or add mime types (see below)
+* Added `brotli` compression support (additionally to GZip) (see below)
+* Regex support in paths (see below)
 
 ----------------------------------------
 

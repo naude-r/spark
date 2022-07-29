@@ -42,7 +42,7 @@ This is the current status for each PR:
 ### Merged (Release 2)
 
 * :green_circle: **MERGED**: Add build status
-    * perwendel/spark#1258 opened 15 days ago by Clivern
+  * perwendel/spark#1258 opened 15 days ago by Clivern
 * :green_circle: **MERGED**: CI build and test Java on Linux and MacOS
   * perwendel/spark#1205 opened on Dec 24, 2020 by carldea
 * :green_circle: **MERGED**: Try to fix issue perwendel/spark/issues/903
@@ -52,44 +52,44 @@ This is the current status for each PR:
 * :green_circle: **MERGED**: fix for issue perwendel/spark/issues/911 and perwendel/spark/issues/966
   * perwendel/spark#1173 opened on May 31, 2020 by xjh33445566
 * :green_circle: **SOLVED ALREADY** (by carldea): Add more information methods like port() to get server parameters perwendel/spark/issues/903
-    * perwendel/spark#1169 opened on May 31, 2020 by SSSSam141
+  * perwendel/spark#1169 opened on May 31, 2020 by SSSSam141
 * :green_circle: **SOLVED ALREADY**: Remove redundant null check 
   * perwendel/spark#1156 opened on Dec 25, 2019 by t-jd
 * :green_circle: **MERGED**: Allow configuring endpointIdentificationAlgorithm for jetty SSL
-    * perwendel/spark#1153 opened on Dec 3, 2019 by huangminchn
+  * perwendel/spark#1153 opened on Dec 3, 2019 by huangminchn
 * :green_circle: **MERGED**: Initiate the servlet instance in exception mapper 
   * perwendel/spark#1137 opened on Sep 3, 2019 by VithyaG
 * :green_circle: **SOLVED ALREADY**: Update Service.java
-    * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
+  * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
 
 ### Rejected
 
 * :red_circle: **REJECTED (Travis was removed)**: Improve Travis CI build Performance
-    * perwendel/spark#1246 opened on Aug 18, 2021 by YunLemon
+  * perwendel/spark#1246 opened on Aug 18, 2021 by YunLemon
 * :red_circle: **REJECTED (IE is no longer supported, it can be merged though)**: Fix perwendel/spark/issues/688: Priority of accept types is incorrect if the client specifies no q factor
-    * perwendel/spark#1235 opened on May 21, 2021 by Chauncey-Xxy
+  * perwendel/spark#1235 opened on May 21, 2021 by Chauncey-Xxy
 * :red_circle: **REJECTED (provides no improvement)**: fix issue perwendel/spark/issues/911
-    * perwendel/spark#1233 opened on May 19, 2021 by cqn2219076254
+  * perwendel/spark#1233 opened on May 19, 2021 by cqn2219076254
 * :red_circle: **REJECTED (provides no improvement)**: Fix issue perwendel/spark/issues/1069 and add according Test
-    * perwendel/spark#1220 opened on Apr 21, 2021 by Lloyd-Pottiger
+  * perwendel/spark#1220 opened on Apr 21, 2021 by Lloyd-Pottiger
 * :red_circle: **REJECTED (complex implementation for simple solution)**: Solve Issue perwendel/spark/issues/997
-    * perwendel/spark#1167 opened on May 8, 2020 by TTaII
+  * perwendel/spark#1167 opened on May 8, 2020 by TTaII
 * :red_circle: **REJECTED (It contains hard-coded Time zones)**: Remove unnecessary condition and support HTTP time format
-    * perwendel/spark#1165 opened on Apr 26, 2020 by MingjiHan99
+  * perwendel/spark#1165 opened on Apr 26, 2020 by MingjiHan99
 
 ### To Fix / To Discuss
 
 * :yellow_circle: **TEST FAILING**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
-    * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
+  * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
 * :yellow_circle: **TEST FAILING**: fix issue perwendel/spark/issues/1204
-    * perwendel/spark#1236 opened on May 21, 2021 by FhToday
+  * perwendel/spark#1236 opened on May 21, 2021 by FhToday
 * :yellow_circle: **TEST FAILING**: Solve the problem of non-ASCII characters in URL. Try to fix #1026
-    * perwendel/spark#1222 opened on Apr 23, 2021 by Bugjudger
+  * perwendel/spark#1222 opened on Apr 23, 2021 by Bugjudger
 * :yellow_circle: **MAY BREAK CODE (package name will change)**: Provide Automatic-Module-Name attribute in MANIFEST.MF (issue perwendel/spark/issues/961)
-    * perwendel/spark#1212 opened on Mar 10, 2021 by apssouza22
+  * perwendel/spark#1212 opened on Mar 10, 2021 by apssouza22
 * :yellow_circle: **TEST FAILING (2 tests failing)**: HTTP 2 Support Feature request (Major 3.0 candidate)
-    * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
+  * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
 * :yellow_circle: **MERGE FAILS (#1030 was closed as not-wanted)**: Try to Fix issue perwendel/spark/issues/1022 & perwendel/spark/issues/1030 bug-fix
-    * perwendel/spark#1172 opened on May 31, 2020 by Hamojpk
+  * perwendel/spark#1172 opened on May 31, 2020 by Hamojpk
 * :yellow_circle: **MERGE FAILS (It seems the issues were already solved)**: Fix issue perwendel/spark/issues/986 & perwendel/spark/issues/1146 bug-fix
-    * perwendel/spark#1171 opened on May 31, 2020 by WingChan1999
+  * perwendel/spark#1171 opened on May 31, 2020 by WingChan1999
