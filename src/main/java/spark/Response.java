@@ -37,8 +37,45 @@ public class Response {
      */
     private static final Logger LOG = LoggerFactory.getLogger(Response.class);
 
+    public enum Compression {
+        // Compression should not be handled in any way by Spark
+        NONE,
+        // It will request Spark to compress depending on browser support (BROTLI if not, GZIP)
+        AUTO,
+        // It will request Spark to compress the output (gzip) and set the GZIP header
+        GZIP_COMPRESS,
+        // It will notify Spark that the output is already GZIP compressed.
+        // In such case, Spark won't compress the output and will ensure the GZIP header is set.
+        GZIP_COMPRESSED,
+        // It will request Spark to compress the output (brotli) and set the BROTLI header
+        // NOTE: Brotli is a successor to gzip, it is supported by all major web browsers. It provides better compression than gzip.
+        BROTLI_COMPRESS,
+        // It will notify Spark that the output is already BROTLI compressed.
+        // In such case, Spark won't compress the output and will ensure the BROTLI header is set.
+        BROTLI_COMPRESSED;
+
+        /**
+         * @return true if output is reported to be already compressed
+         */
+        public boolean isCompressed() {
+            return this == GZIP_COMPRESSED || this == BROTLI_COMPRESSED;
+        }
+
+        /**
+         * @return true if Spark is notified to compress output
+         */
+        public boolean toCompress() {
+            return this == GZIP_COMPRESS || this == BROTLI_COMPRESS;
+        }
+    }
+
     private HttpServletResponse response;
     private String body;
+
+    /**
+     * Notify Spark how compression should be handled
+     */
+    public Compression compression = Compression.NONE;
 
     protected Response() {
         // Used by wrapper
@@ -313,5 +350,4 @@ public class Response {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
-
 }

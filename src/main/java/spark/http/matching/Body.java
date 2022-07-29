@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package spark.http.matching;
 
 import java.io.IOException;
@@ -23,12 +22,11 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import spark.Response;
+import spark.utils.CompressUtil;
 import spark.serialization.SerializerChain;
-import spark.utils.GzipUtils;
 
-
-
-/**.
+/**
  * Represents the 'body'
  */
 final class Body {
@@ -76,7 +74,7 @@ final class Body {
      */
     public void serializeTo(HttpServletResponse httpResponse,
                             SerializerChain serializerChain,
-                            HttpServletRequest httpRequest) throws IOException {
+                            HttpServletRequest httpRequest, Response.Compression compression) throws IOException {
 
         if (!httpResponse.isCommitted()) {
             if (httpResponse.getContentType() == null && !useEmpty) {
@@ -86,7 +84,7 @@ final class Body {
             }
 
             // Check if GZIP is wanted/accepted and in that case handle that
-            OutputStream responseStream = GzipUtils.checkAndWrap(httpRequest, httpResponse, true);
+            OutputStream responseStream = CompressUtil.checkAndWrap(httpRequest, httpResponse, compression);
 
             // Serialize the body to output stream
             serializerChain.process(responseStream, content);
