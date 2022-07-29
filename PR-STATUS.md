@@ -59,6 +59,8 @@ This is the current status for each PR:
     * perwendel/spark#1153 opened on Dec 3, 2019 by huangminchn
 * :green_circle: **MERGED**: Initiate the servlet instance in exception mapper 
   * perwendel/spark#1137 opened on Sep 3, 2019 by VithyaG
+* :green_circle: **SOLVED ALREADY**: Update Service.java
+    * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
 
 ### Rejected
 
@@ -91,5 +93,3 @@ This is the current status for each PR:
     * perwendel/spark#1172 opened on May 31, 2020 by Hamojpk
 * :yellow_circle: **MERGE FAILS (It seems the issues were already solved)**: Fix issue perwendel/spark/issues/986 & perwendel/spark/issues/1146 bug-fix
     * perwendel/spark#1171 opened on May 31, 2020 by WingChan1999
-* :yellow_circle: **DISCUSS (Approach may not be the best)**: Update Service.java
-    * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
