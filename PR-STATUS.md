@@ -49,16 +49,12 @@ This is the current status for each PR:
   * perwendel/spark#1175 opened on May 31, 2020 by zdh431079799
 * :green_circle: **MERGED**: Try to fix issue perwendel/spark/issues/534
   * perwendel/spark#1174 opened on May 31, 2020 by zdh431079799
-
-
-* fix for issue perwendel/spark/issues/911 and perwendel/spark/issues/966
+* :green_circle: **MERGED**: fix for issue perwendel/spark/issues/911 and perwendel/spark/issues/966
   * perwendel/spark#1173 opened on May 31, 2020 by xjh33445566
-* Fix issue perwendel/spark/issues/986 & perwendel/spark/issues/1146 bug-fix
-  * perwendel/spark#1171 opened on May 31, 2020 by WingChan1999
-* Add more information methods like port() to get server parameters perwendel/spark/issues/903
-  * perwendel/spark#1169 opened on May 31, 2020 by SSSSam141
-* Solve Issue perwendel/spark/issues/997
-  * perwendel/spark#1167 opened on May 8, 2020 by TTaII
+* :green_circle: **SOLVED ALREADY** (by carldea): Add more information methods like port() to get server parameters perwendel/spark/issues/903
+    * perwendel/spark#1169 opened on May 31, 2020 by SSSSam141
+
+
 * Remove unnecessary condition and support HTTP time format
   * perwendel/spark#1165 opened on Apr 26, 2020 by MingjiHan99
 * Remove redundant null check 
@@ -80,7 +76,8 @@ This is the current status for each PR:
     * perwendel/spark#1233 opened on May 19, 2021 by cqn2219076254
 * :red_circle: **REJECTED (provides no improvement)**: Fix issue perwendel/spark/issues/1069 and add according Test
     * perwendel/spark#1220 opened on Apr 21, 2021 by Lloyd-Pottiger
-
+* :red_circle: **REJECTED (complex implementation for simple solution)**: Solve Issue perwendel/spark/issues/997
+    * perwendel/spark#1167 opened on May 8, 2020 by TTaII
 
 ### To Fix / To Discuss
 
@@ -96,3 +93,5 @@ This is the current status for each PR:
     * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
 * :yellow_circle: **MERGE FAILS (#1030 was closed as not-wanted)**: Try to Fix issue perwendel/spark/issues/1022 & perwendel/spark/issues/1030 bug-fix
     * perwendel/spark#1172 opened on May 31, 2020 by Hamojpk
+* :yellow_circle: **MERGE FAILS (It seems the issues were already solved)**: Fix issue perwendel/spark/issues/986 & perwendel/spark/issues/1146 bug-fix
+    * perwendel/spark#1171 opened on May 31, 2020 by WingChan1999
