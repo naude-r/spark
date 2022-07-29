@@ -4,7 +4,7 @@ Most recent (after 2019) [Pull Requests](https://github.com/perwendel/spark/pull
 
 This is the current status for each PR:
 
-* :yellow_circle: **PENDING (Not sure)**: Add build status
+* :green_circle: **MERGED**: Add build status
   * perwendel/spark#1258 opened 15 days ago by Clivern
 * :green_circle: **MERGED**: Add test for Base64.decode and Base64.encode
   * perwendel/spark#1257 opened 18 days ago by lacinoire
@@ -57,7 +57,7 @@ This is the current status for each PR:
   
 -----
 
-* :yellow_circle: **PENDING**: CI build and test Java on Linux and MacOS
+* :green_circle: **MERGED**: CI build and test Java on Linux and MacOS
   * perwendel/spark#1205 opened on Dec 24, 2020 by carldea
 * :yellow_circle: **PENDING** (2 tests failing): HTTP 2 Support Feature request (Major 3.0 candidate)
   * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
@@ -81,7 +81,7 @@ This is the current status for each PR:
   * perwendel/spark#1156 opened on Dec 25, 2019 by t-jd
 * Allow configuring endpointIdentificationAlgorithm for jetty SSL
   * perwendel/spark#1153 opened on Dec 3, 2019 by huangminchn
-* Update Service.java 
+* :yellow_circle: **PENDING (Approach may not be the best)**: Update Service.java 
   * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
 * Initiate the servlet instance in exception mapper 
   * perwendel/spark#1137 opened on Sep 3, 2019 by VithyaG
