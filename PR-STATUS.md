@@ -63,7 +63,7 @@ This is the current status for each PR:
   * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
 * :green_circle: **MERGED**: Try to fix issue perwendel/spark/issues/903
   * perwendel/spark#1175 opened on May 31, 2020 by zdh431079799
-* Try to fix issue perwendel/spark/issues/534
+* :green_circle: **MERGED**: Try to fix issue perwendel/spark/issues/534
   * perwendel/spark#1174 opened on May 31, 2020 by zdh431079799
 * fix for issue perwendel/spark/issues/911 and perwendel/spark/issues/966
   * perwendel/spark#1173 opened on May 31, 2020 by xjh33445566
