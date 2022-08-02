@@ -19,7 +19,6 @@ package spark.route;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import jdk.nashorn.internal.runtime.regexp.RegExp;
 import spark.utils.SparkUtils;
 import spark.utils.StringUtils;
 
@@ -60,8 +59,8 @@ class RouteEntry {
     }
 
     //CS304 Issue link: https://github.com/perwendel/spark/issues/1151
-    private boolean matchPath(String path) { // NOSONAR
-        if (!this.path.endsWith("*") && this.path.equals(path)) {
+    private boolean matchPath(String input) { // NOSONAR
+        if (!this.path.endsWith("*") && this.path.equals(input)) {
             // Paths are the same
             return true;
         }
@@ -69,12 +68,21 @@ class RouteEntry {
         if(this.path.startsWith("~/")) {
             String routePath = StringUtils.cleanRegex(this.path);
             Pattern pattern = Pattern.compile(routePath, Pattern.CASE_INSENSITIVE);
-            return pattern.matcher(path).find();
+            return pattern.matcher(input).find();
+        }
+        // Match slashes
+        if (!this.path.endsWith("*")
+            // If the user input has a slash on the end, either our path should end in slash or optional
+            && ((input.endsWith("/") && !(this.path.endsWith("/") || this.path.endsWith("/?"))) // NOSONAR
+            // If we specified that the path must finish with a slash, user input must as well
+            || (!input.endsWith("/") && this.path.endsWith("/")))) {
+            // One and not both ends with slash
+            return false;
         }
 
         // check params
         List<String> thisPathList = SparkUtils.convertRouteToList(this.path);
-        List<String> pathList = SparkUtils.convertRouteToList(path);
+        List<String> pathList = SparkUtils.convertRouteToList(input);
 
         int thisPathSize = thisPathList.size();
         int pathSize = pathList.size();
@@ -101,7 +109,7 @@ class RouteEntry {
             // Number of "path parts" not the same
             // check wild card:
             if (this.path.endsWith("*")) {
-                if (pathSize == (thisPathSize - 1) && (path.endsWith("/"))) {
+                if (pathSize == (thisPathSize - 1) && (input.endsWith("/"))) {
                     // Hack for making wildcards work with trailing slash
                     pathList.add("");
                     pathList.add("");

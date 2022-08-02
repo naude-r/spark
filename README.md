@@ -24,7 +24,7 @@ In order to use this fork version, you need to change your spark dependency.
 <dependency>
   <groupId>com.intellisrc</groupId>
   <artifactId>spark-core</artifactId>
-  <version>2.9.4-unofficial-1</version>
+  <version>2.9.4-unofficial-3</version>
 </dependency>
 ```
 
@@ -32,7 +32,7 @@ In order to use this fork version, you need to change your spark dependency.
 
 ```groovy
 dependencies {
-    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-1'
+    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-3'
 }
 ```
 
@@ -73,9 +73,11 @@ Bug fixes:
 
 Improvements:
 * Added additional mime types (like 'video/mp4') - Issue: perwendel/spark/issues/997
-* Allow to override or add mime types (see below)
-* Added `brotli` compression support (additionally to GZip) (see below)
-* Regex support in paths (see below)
+* Allow to override or add mime types 
+* Added `brotli` compression support (additionally to GZip) 
+* Regex support in paths 
+
+More details on these features: [DIFFERENCES.md](DIFFERENCES.md)
 
 ----------------------------------------
 

@@ -183,12 +183,21 @@ public class Routes {
     //////////////////////////////////////////////////
 
     private void add(HttpMethod method, String url, String acceptedType, Object target) {
+        // Aliases for "/"
+        if(url.equals("")) { url = "/"; }
+        else if(url.equals("/?")) { url = "/"; }
+
         RouteEntry entry = new RouteEntry();
         entry.httpMethod = method;
         entry.path = url;
         entry.target = target;
         entry.acceptedType = acceptedType;
         LOG.debug("Adds route: " + entry);
+        if(find(method, url, acceptedType) != null) {
+            // While it is not really an issue, it is better to report it as it might be a mistake,
+            // for example: `/:dir` and `/user` will match the same path: `/user`.
+            LOG.info("Another route already exists with (Method: {}, Path: {}, Accepted Type: {})", method.toString(), url, acceptedType);
+        }
         // Adds to end of list
         routes.add(entry);
     }
