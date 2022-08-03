@@ -1,4 +1,4 @@
-## Spark: a tiny web framework for Java
+## Spark: a tiny web framework for Java, Kotlin and Groovy
 
 ----------------------------------------
 

@@ -586,7 +586,7 @@ public class Request {
         return Collections.unmodifiableMap(params);
     }
 
-    // Java 8 doesn't expose Pattern.namedGroups(), se we have extract them again:
+    // Java doesn't expose Pattern.namedGroups(), se we have extract them again:
     private static Set<String> getNamedGroups(String regex) {
         Set<String> namedGroups = new TreeSet<>();
         Matcher m = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z0-9]*)>").matcher(regex);

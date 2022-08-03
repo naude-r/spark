@@ -165,14 +165,14 @@ public class RegexPaths {
         get("~/([^.]+)\\.page$/", (request, response) -> String.format("%s Page", request.params(1)));
         // You can define groups by name:
         // Example: /1723-my-page-name.ext
-        get("~/^\\/(?<id>[^-]+)-(?<name>[^.]+)\\.(?<ext>.*)$/", (request, response) -> 
+        get("~/^\\/(?<id>\\d+)-(?<name>[^.]+)\\.(?<ext>.*)$/", (request, response) -> 
             String.format("[%d] ID : %s Page (ext: %s)",
-                Integer.parseInt(request.params("id")),
+                Integer.parseInt(request.params("id")), //As it matches the regex, it is safe
                 request.params("name"),
                 request.params("ext")
         ));
     }
-
+    
 }
 ```
 
