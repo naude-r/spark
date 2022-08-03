@@ -39,9 +39,9 @@ import static spark.Spark.staticFiles;
 /**
  * Test external static files
  */
-public class StaticFilesTestExternal {
+public class StaticFilesExternalTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaticFilesTestExternal.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StaticFilesExternalTest.class);
 
     private static final String FO_SHIZZY = "Fo shizzy";
     private static final String NOT_FOUND_BRO = "Not found bro";
@@ -71,7 +71,7 @@ public class StaticFilesTestExternal {
     public static void setup() throws IOException {
         testUtil = new SparkTestUtil(4567);
 
-        String directoryRoot = System.getProperty("java.io.tmpdir") + "sparkish";
+        String directoryRoot = System.getProperty("java.io.tmpdir") + File.separator + "sparkish";
         new File(directoryRoot).mkdirs();
 
         tmpExternalFile1 = new File(directoryRoot, EXTERNAL_FILE_NAME_HTML);

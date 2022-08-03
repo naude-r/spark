@@ -2,7 +2,8 @@ package spark;
 
 import java.io.IOException;
 
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import spark.util.SparkTestUtil;
@@ -13,14 +14,14 @@ import static org.junit.Assert.assertEquals;
  * @since 2022/07/26.
  */
 public class RequestRootAliasesTest {
-    static int port1 = 19832;
-    static int port2 = 19833;
+    static int port1 = 24567;
+    static int port2 = 24568;
     // Prepare clients:
     static final SparkTestUtil http1 = new SparkTestUtil(port1);
     static final SparkTestUtil http2 = new SparkTestUtil(port2);
 
-    @Before
-    public void setup() throws IOException {
+    @BeforeClass
+    public static void setup() throws IOException {
         // Prepare servers:
         Service s1 = Service.ignite().port(port1);
         Service s2 = Service.ignite().port(port2);
@@ -38,6 +39,11 @@ public class RequestRootAliasesTest {
         // Wait for them:
         s1.awaitInitialization();
         s2.awaitInitialization();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        Spark.stop();
     }
 
     @Test

@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import spark.util.SparkTestUtil;
@@ -21,7 +22,7 @@ public class RequestSlashTest {
 
     private static final SparkTestUtil http = new SparkTestUtil(PORT);
 
-    List<Checker> checks;
+    static List<Checker> checks;
 
     static class Checker {
         final String serverPath;
@@ -39,8 +40,8 @@ public class RequestSlashTest {
         }
     }
 
-    @Before
-    public void setup() throws IOException {
+    @BeforeClass
+    public static void setup() throws IOException {
         checks = new ArrayList<Checker>() {{
             // Root Match: Slash should be optional in the server:
             add(new Checker("/","/","/user/"));
@@ -65,6 +66,11 @@ public class RequestSlashTest {
             });
         }
         Spark.awaitInitialization();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        Spark.stop();
     }
 
     @Test
