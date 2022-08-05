@@ -76,6 +76,7 @@ Improvements:
 * Allow to override or add mime types 
 * Added `brotli` compression support (additionally to GZip) 
 * Regex support in paths 
+* HTTP/2 support
 
 More details on these features: [DIFFERENCES.md](DIFFERENCES.md)
 
