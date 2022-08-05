@@ -18,6 +18,7 @@ package spark.utils;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,11 +29,10 @@ import java.util.zip.GZIPOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import spark.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.nixxcode.jvmbrotli.common.BrotliLoader;
-import com.nixxcode.jvmbrotli.enc.BrotliOutputStream;
-import com.nixxcode.jvmbrotli.enc.Encoder;
+import spark.Response;
 
 import static spark.Response.Compression.*;
 
@@ -43,6 +43,7 @@ import static spark.Response.Compression.*;
  * @author Per Wendel
  */
 public class CompressUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(CompressUtil.class);
     private static final String ACCEPT_ENCODING = "Accept-Encoding";
     private static final String CONTENT_ENCODING = "Content-Encoding";
 
@@ -80,7 +81,7 @@ public class CompressUtil {
     }
     /**
      * Checks if the HTTP request/response accepts and wants to compress outputStream and i that case wraps the response output stream in a
-     * {@link java.util.zip.GZIPOutputStream} or {@link com.nixxcode.jvmbrotli.enc.BrotliOutputStream}.
+     * {@link java.util.zip.GZIPOutputStream} or 'com.nixxcode.jvmbrotli.enc.BrotliOutputStream'.
      *
      * @param httpRequest        the HTTP servlet request.
      * @param httpResponse       the HTTP servlet response.
@@ -115,7 +116,7 @@ public class CompressUtil {
             }
 
             if(compression == AUTO) {
-                if(accepts.containsKey(BROTLI) && BrotliLoader.isBrotliAvailable()) {
+                if(accepts.containsKey(BROTLI) && isBrotliAvailable()) {
                     compression = BROTLI_COMPRESS;
                 } else if(accepts.containsKey(GZIP)) {
                     compression = GZIP_COMPRESS;
@@ -136,22 +137,18 @@ public class CompressUtil {
                         addContentEncodingHeader(httpResponse, GZIP);
                     }
                     break;
-                // NOTE: Brotli Library is included with `com.nixxcode.jvmbrotli` library
                 case BROTLI_COMPRESS:
-                    if(BrotliLoader.isBrotliAvailable()) {
+                    if(isBrotliAvailable()) {
                         if (accepts.containsKey(BROTLI)) {
                             int q = Math.round(accepts.get(BROTLI) * 10);
-                            if (q <= 0) {
-                                q = 10;
-                            }
-                            if (q > 11) {
-                                q = 11;
-                            }
-                            responseStream = new BrotliOutputStream(responseStream, new Encoder.Parameters().setQuality(q));
+                            try {
+                                responseStream = getBrotliOutputStream(responseStream, q);
+                                addContentEncodingHeader(httpResponse, BROTLI); //Only add if succeeds
+                            } catch(RuntimeException ignore) {}
                         }
                     }
                 case BROTLI_COMPRESSED:
-                    if(BrotliLoader.isBrotliAvailable()) {
+                    if(isBrotliAvailable()) {
                         if (!encodingHeader.contains(BROTLI) && accepts.containsKey(BROTLI)) {
                             addContentEncodingHeader(httpResponse, BROTLI);
                         }
@@ -169,5 +166,48 @@ public class CompressUtil {
      */
     private static void addContentEncodingHeader(HttpServletResponse response, String algo) {
         response.setHeader(CONTENT_ENCODING, algo);
+    }
+
+    /**
+     * As Brotli library is optional, it might not exist. Be sure it exist before calling it.
+     * @return true if brotli is available
+     */
+    public static boolean isBrotliAvailable() {
+        boolean available = false;
+        try {
+            Class<?> brotli = Class.forName("com.nixxcode.jvmbrotli.common.BrotliLoader");
+            available = (Boolean) brotli.getMethod("isBrotliAvailable").invoke(null);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException |
+                 InvocationTargetException e) {
+            LOG.debug("Brotli was not found: {} Cause: {}", e.getMessage(), e.getCause());
+        }
+        return available;
+    }
+
+    /**
+     * As Brotli library is optional, it might not exist.
+     * We are using reflection to access Brotli classes if they exist.
+     * @param response content to be encoded/compressed
+     * @param q compression quality (0-11) 11 = Max compression
+     * @return compressed content
+     * @throws RuntimeException In case it was unable to compress
+     */
+    private static OutputStream getBrotliOutputStream(OutputStream response, int q) throws RuntimeException {
+        OutputStream responseStream;
+        if (q <= 0) q = 10;
+        if (q > 11) q = 11;
+        try {
+            Class<?> brotliOutputStream = Class.forName("com.nixxcode.jvmbrotli.enc.BrotliOutputStream");
+            Class<?> encoderParams = Class.forName("com.nixxcode.jvmbrotli.enc.Encoder$Parameters");
+            Object encoderParamsInstance = encoderParams.newInstance();
+            Object params = encoderParams.getMethod("setQuality", int.class).invoke(encoderParamsInstance, q);
+            responseStream = (OutputStream) brotliOutputStream.getConstructor(OutputStream.class, encoderParams)
+                .newInstance(response, encoderParams.cast(params));
+        } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException |
+                 NoSuchMethodException e) {
+            LOG.debug("Unable to compress with Brotli: {} Cause: {}", e.getMessage(), e.getCause());
+            throw new RuntimeException(e);
+        }
+        return responseStream;
     }
 }
