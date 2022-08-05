@@ -69,14 +69,14 @@ Improvements:
 ## Release 3
 
 Bug fixes:
-* Fixed GZip content-length problem - Issue: perwendel/spark/issues/1157 (also #459, #742 and #937)
+* Fixed GZip content-length problem - Issue: perwendel#1157 (also perwendel#459, perwendel#742 and perwendel#937)
 
 Improvements:
-* Added additional mime types (like 'video/mp4') - Issue: perwendel/spark/issues/997
-* Allow to override or add mime types 
+* Added additional mime types (like 'video/mp4') - Issue: perwendel#997
+* Allow to override or add mime types (perwendel#997)
 * Added `brotli` compression support (additionally to GZip) 
 * Regex support in paths 
-* HTTP/2 support
+* HTTP/2 support (perwendel#1183)
 
 More details on these features: [DIFFERENCES.md](DIFFERENCES.md)
 
