@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        java: [ '1.8', '1.9', '1.10', '1.11' ]
+        java: [ '1.8' ]
     name: Java Version ${{ matrix.java }}
     steps:
       - uses: actions/checkout@master
