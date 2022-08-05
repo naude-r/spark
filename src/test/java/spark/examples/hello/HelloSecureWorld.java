@@ -1,18 +1,26 @@
 package spark.examples.hello;
 
+import spark.util.SparkTestUtil;
+
 import static spark.Spark.get;
 import static spark.Spark.secure;
 
 /**
- * You'll need to provide a JKS keystore as arg 0 and its password as arg 1.
+ * You can provide a JKS keystore as arg 0 and its password as arg 1, otherwise we will use one for testing.
+ *
+ * You can test from command with:
+ * > curl -i -k 'https://localhost:4567/'
  */
 public class HelloSecureWorld {
     public static void main(String[] args) {
-
-        secure(args[0], args[1], null, null);
-        get("/hello", (request, response) -> {
+        if(args.length == 0) {
+            secure("/home/lepe/Projects/git/spark/keystore.jks", "yourpasswordhere", null, null);
+            //secure(SparkTestUtil.getKeyStoreLocation(), SparkTestUtil.getKeystorePassword(), null, null);
+        } else {
+            secure(args[0], args[1], null, null);
+        }
+        get("/", (request, response) -> {
             return "Hello Secure World!";
         });
-
     }
 }

@@ -23,13 +23,17 @@ import static spark.Spark.http2;
  * This will start a server with HTTP 1.1 and HTTP2 clear
  * By default it will do HTTP 1.1 but you can upgrade for HTTP 2
  * or use HTTP 2 directly.
- * To test the upgrade you can run: "nghttp -vu http://127.0.0.1:8080/hello"
- * To test the direct use of http2: "nghttp -v http://127.0.0.1:8080/hello"
+ *
+ * You can test from command with:
+ * > curl -i --http2 'http://localhost:4567/'
+ *
+ * Or: (nghttp2-client required)
+ * To test the upgrade you can run: "nghttp -vu http://127.0.0.1:4567/"
+ * To test the direct use of http2: "nghttp -v http://127.0.0.1:4567/"
  **/
  public class HelloHttp2World {
-
     public static void main(String[] args) {
         http2();
-        get("/hello", (request, response) -> "Hello World!");
+        get("/", (request, response) -> "Hello World!");
     }
 }

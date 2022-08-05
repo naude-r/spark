@@ -177,3 +177,42 @@ public class RegexPaths {
 ```
 
 # HTTP2
+
+> Most of this implementation was contributed by [@luneo7](https://github.com/perwendel/spark/pull/1183)
+
+HTTP2 protocol can be provided by setting `http2()`:
+
+```java
+import static spark.Spark.*;
+
+public class HelloHttp2World {
+
+    public static void main(String[] args) {
+        // Enable HTTPS (Most browsers will not provide HTTP2 if HTTPS is not enabled)
+        secure("/location/of/keystore.jks", "yourSecretP@ssw0rd", null, null);
+        // Enable HTTP2 Protocol
+        http2();
+        // The rest of your code
+        get("/", (request, response) -> "Hello World!");
+    }
+}
+```
+
+To create `keystore.jks` file with a self-signed certificate, execute (Linux):
+
+```bash
+keytool -genkey -keyalg RSA -alias example.com -keystore keystore.jks -storepass yourpasswordhere -validity 365 -keysize 2048
+```
+
+If you already have a valid certificate, you can create the key store with these commands instead:
+
+```bash
+# First export your x.509 certificate and key to pkcs12:
+openssl pkcs12 -export -in example.crt -inkey example.key -out example.p12 -name example.com -CAfile ca.crt -chain
+#NOTE#: Be sure you set a password or you won't be able to import it
+
+# Then, create or import into the key store:
+keytool -importkeystore -deststorepass yourpasswordhere -destkeypass yourpasswordhere -destkeystore keystore.jks \
+        -srckeystore example.p12 -srcstoretype PKCS12 -srcstorepass thePasswordYouSetInTheStepBefore \
+        -deststoretype JKS -alias example.com
+```

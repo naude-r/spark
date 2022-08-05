@@ -16,6 +16,7 @@
  */
 package spark;
 
+import java.security.Security;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import org.conscrypt.OpenSSLProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -162,12 +164,23 @@ public final class Service extends Routable {
     /**
      * Enables HTTP 2
      *
+     * We had 3 options for ALPN (Application-Layer Protocol Negotiation):
+     * 1. jetty-alpn-openjdk8-server for JDK 8
+     * 2. jetty-alpn-java-server for JDK >= 9
+     * 3. jetty-alpn-conscrypt-server for native SSL implementation (JDK >= 8)
+     * We decided to use #3 to cover all Java versions. This requires
+     * to add the following line before enabling http2:
+     * "Security.insertProviderAt(new OpenSSLProvider(), 1);"
+     * Docs for the ALPN are available at:
+     * https://www.eclipse.org/jetty/documentation/current/alpn-chapter.html
+     *
      * @return the object with HTTP 2 enabled
      */
     public synchronized Service http2() {
         if (initialized) {
             throwBeforeRouteMappingException();
         }
+        Security.insertProviderAt(new OpenSSLProvider(), 1);
         this.http2Enabled = true;
         return this;
     }
@@ -337,7 +350,7 @@ public final class Service extends Routable {
      *                                        request
      * @param endpointIdentificationAlgorithm Endpoint identification algorithm:
      *                                        "HTTPS", "LDAPS" or null
-     * @return
+     * @return Service
      */
     public synchronized Service secure(String keystoreFile,
                                        String keystorePassword,
