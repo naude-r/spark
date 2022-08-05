@@ -62,6 +62,10 @@ This is the current status for each PR:
 * :green_circle: **SOLVED ALREADY**: Update Service.java
   * perwendel/spark#1141 opened on Sep 15, 2019 by duymap
 
+### Merged (Release 3)
+* :green_circle: **MERGED**: HTTP 2 Support Feature request (Major 3.0 candidate)
+  * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
+
 ### Rejected
 
 * :red_circle: **REJECTED (Travis was removed)**: Improve Travis CI build Performance
@@ -87,8 +91,6 @@ This is the current status for each PR:
   * perwendel/spark#1222 opened on Apr 23, 2021 by Bugjudger
 * :yellow_circle: **MAY BREAK CODE (package name will change)**: Provide Automatic-Module-Name attribute in MANIFEST.MF (issue perwendel/spark/issues/961)
   * perwendel/spark#1212 opened on Mar 10, 2021 by apssouza22
-* :yellow_circle: **TEST FAILING (2 tests failing)**: HTTP 2 Support Feature request (Major 3.0 candidate)
-  * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
 * :yellow_circle: **MERGE FAILS (#1030 was closed as not-wanted)**: Try to Fix issue perwendel/spark/issues/1022 & perwendel/spark/issues/1030 bug-fix
   * perwendel/spark#1172 opened on May 31, 2020 by Hamojpk
 * :yellow_circle: **MERGE FAILS (It seems the issues were already solved)**: Fix issue perwendel/spark/issues/986 & perwendel/spark/issues/1146 bug-fix
