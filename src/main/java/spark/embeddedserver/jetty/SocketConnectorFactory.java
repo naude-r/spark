@@ -161,6 +161,7 @@ public class SocketConnectorFactory {
         HttpConfiguration httpConfig = new HttpConfiguration();
         httpConfig.setSecureScheme("https");
         httpConfig.addCustomizer(new SecureRequestCustomizer());
+        httpConfig.setSendServerVersion(false);
         if(trustForwardHeaders)
             httpConfig.addCustomizer(new ForwardedRequestCustomizer());
         return httpConfig;
