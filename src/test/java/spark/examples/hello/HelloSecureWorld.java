@@ -14,8 +14,7 @@ import static spark.Spark.secure;
 public class HelloSecureWorld {
     public static void main(String[] args) {
         if(args.length == 0) {
-            secure("/home/lepe/Projects/git/spark/keystore.jks", "yourpasswordhere", null, null);
-            //secure(SparkTestUtil.getKeyStoreLocation(), SparkTestUtil.getKeystorePassword(), null, null);
+            secure(SparkTestUtil.getKeyStoreLocation(), SparkTestUtil.getKeystorePassword(), null, null);
         } else {
             secure(args[0], args[1], null, null);
         }
