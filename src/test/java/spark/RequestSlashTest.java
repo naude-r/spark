@@ -43,6 +43,7 @@ public class RequestSlashTest {
     @BeforeClass
     public static void setup() throws IOException {
         checks = new ArrayList<Checker>() {{
+            /*
             // Root Match: Slash should be optional in the server:
             add(new Checker("/","/","/user/"));
             // File match: Opening slash should be optional (server).
@@ -56,6 +57,12 @@ public class RequestSlashTest {
             add(new Checker("dir4/?","/dir4/","/dir4/dir/"));
             add(new Checker("/dir5/?","/dir5","/dir"));
             add(new Checker("/dir6/?","/dir6/","/dir/"));
+             */
+            // Trailing slash optional with parameter:
+            add(new Checker("dir7/:id/?","/dir7/1234","/dir7/dir/1111"));
+            add(new Checker("dir8/:id/?","/dir8/1234/","/dir8/dir/2222/"));
+            add(new Checker("/dir9/:id/?","/dir9/1234","/dir9"));
+            add(new Checker("/dir10/:id/?","/dir10/1234/","/dir10/"));
             //add(new Checker("","",""));
         }};
         for(Checker c : checks) {

@@ -16,12 +16,12 @@
  */
 package spark.examples.websocket;
 
-import static spark.Spark.init;
-import static spark.Spark.webSocket;
+import static spark.Spark.*;
 
 public class WebSocketExample {
 
     public static void main(String[] args) {
+        staticFileLocation("/public"); //Test webSocket combined with http
         webSocket("/echo", EchoWebSocket.class);
         webSocket("/ping", PingWebSocket.class);
         init();

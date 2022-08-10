@@ -70,7 +70,7 @@ class RouteEntry {
             Pattern pattern = Pattern.compile(routePath, Pattern.CASE_INSENSITIVE);
             return pattern.matcher(input).find();
         }
-        // Match slashes
+        // Match slashes (return false if they don't match except when it is optional)
         if (!this.path.endsWith("*")
             // If the user input has a slash on the end, either our path should end in slash or optional
             && ((input.endsWith("/") && !(this.path.endsWith("/") || this.path.endsWith("/?"))) // NOSONAR
@@ -83,6 +83,10 @@ class RouteEntry {
         // check params
         List<String> thisPathList = SparkUtils.convertRouteToList(this.path);
         List<String> pathList = SparkUtils.convertRouteToList(input);
+        // Remove optional "/?" when using params
+        if(thisPathList.indexOf("?") == thisPathList.size() - 1) {
+            thisPathList.remove("?");
+        }
 
         int thisPathSize = thisPathList.size();
         int pathSize = pathList.size();
