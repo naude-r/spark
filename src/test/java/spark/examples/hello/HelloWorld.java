@@ -17,7 +17,6 @@
 package spark.examples.hello;
 
 import static spark.Spark.get;
-import static spark.Spark.staticFileLocation;
 
 /**
  * Minimal example
@@ -28,7 +27,6 @@ import static spark.Spark.staticFileLocation;
 public class HelloWorld {
 
     public static void main(String[] args) {
-        staticFileLocation("/public/");
         get("/", (request, response) -> "Hello World!");
 
     }

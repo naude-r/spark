@@ -78,7 +78,13 @@ Improvements:
 * Regex support in paths 
 * HTTP/2 support (perwendel#1183)
 
-More details on these features: [DIFFERENCES.md](DIFFERENCES.md)
+## Release4
+* Fixed optional trailing slash when used with params
+* Added unicode support in paths (issue perwendel#1026) (PR: perwendel/spark#1222)
+* Fixed incorrect response based on acceptType (perwendel#1077) (PR: perwendel/spark#1238)
+* Fixed incorrect handling when using invalid methods (perwendel/spark#1236) (PR: perwendel#1204)
+
+More details and examples on the differences between the Official version and this one: [DIFFERENCES.md](DIFFERENCES.md)
 
 ----------------------------------------
 
