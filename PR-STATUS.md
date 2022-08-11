@@ -66,6 +66,11 @@ This is the current status for each PR:
 * :green_circle: **MERGED**: HTTP 2 Support Feature request (Major 3.0 candidate)
   * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
 
+### Merged (Release 4)
+* :green_circle: **MERGERD**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
+    * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
+
+
 ### Rejected
 
 * :red_circle: **REJECTED (Travis was removed)**: Improve Travis CI build Performance
@@ -83,8 +88,6 @@ This is the current status for each PR:
 
 ### To Fix / To Discuss
 
-* :yellow_circle: **TEST FAILING**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
-  * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
 * :yellow_circle: **TEST FAILING**: fix issue perwendel/spark/issues/1204
   * perwendel/spark#1236 opened on May 21, 2021 by FhToday
 * :yellow_circle: **TEST FAILING**: Solve the problem of non-ASCII characters in URL. Try to fix #1026
