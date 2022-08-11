@@ -24,6 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jetty.http.HttpMethod;
+import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.session.SessionHandler;
 
@@ -50,15 +52,11 @@ public class JettyHandler extends SessionHandler {
         HttpServletResponse response) throws IOException, ServletException {
 
         HttpRequestWrapper wrapper = new HttpRequestWrapper(request);
-        final String[] METHODS = {"GET", "POST", "HEAD", "PUT", "OPTIONS", "DELETE", "TRACE", "CONNECT "};
-        boolean isValid = false;
-        for (String METHOD : METHODS) {
-            if (request.getMethod().equalsIgnoreCase(METHOD)) {
-                isValid = true;
-                break;
-            }
+        HttpMethod method = HttpMethod.fromString(request.getMethod().trim().toUpperCase());
+        if(method == null) {
+            response.sendError(HttpStatus.METHOD_NOT_ALLOWED_405);
+            return;
         }
-        if (!isValid) return;
 
         if(consume!=null && consume.contains(baseRequest.getRequestURI())){
             wrapper.notConsumed(true);
@@ -66,11 +64,6 @@ public class JettyHandler extends SessionHandler {
             filter.doFilter(wrapper, response, null);
         }
 
-        if (wrapper.notConsumed()) {
-            baseRequest.setHandled(false);
-        } else {
-            baseRequest.setHandled(true);
-        }
         baseRequest.setHandled(!wrapper.notConsumed());
     }
 

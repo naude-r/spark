@@ -53,6 +53,8 @@ public class Issue1077Test {
             response.status(406);
             return "Go Away!!!";
         });
+
+        awaitInitialization();
     }
 
     // CS304 Issue link: https://github.com/perwendel/spark/issues/1077

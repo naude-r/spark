@@ -1,61 +1,88 @@
 package spark;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
+import java.net.URI;
+
+import spark.util.SparkTestUtil;
 
 import static org.junit.Assert.assertEquals;
-
-import static spark.Spark.halt;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static spark.Spark.awaitInitialization;
+import static spark.Spark.get;
+import static spark.Spark.staticFileLocation;
 
 public class InvalidRequestTest {
-    @Test
-    public void invalidRequestTest(){
-        Service service = Service.ignite().port(4567);
-        service.staticFiles.externalLocation("/Users/");
 
-        service.get("/", (req, res) -> {
-            if (!req.requestMethod().equalsIgnoreCase("GET")) {
-                halt(401, "invalid Http method");
-            }
-            return null;
+    public static class HttpFoo extends HttpRequestBase {
+        public final static String METHOD_NAME = "FOO";
+        @Override
+        public String getMethod() {
+            return METHOD_NAME;
+        }
+        public HttpFoo(final String uri) {
+            super();
+            setURI(URI.create(uri));
+        }
+        public String getName() {
+            return "FOO";
+        }
+    }
+
+    public static final String FILE = "/page.html";
+
+    public static final String SERVICE="/test";
+
+    public static final int PORT = 4567;
+
+    private static final SparkTestUtil http = new SparkTestUtil(PORT);
+
+    @Before
+    public void setup() {
+        staticFileLocation("/public");
+        get(SERVICE, (request, response) -> {
+            assertTrue(request.requestMethod().equalsIgnoreCase("GET"));
+            return "Hello";
         });
 
-        String result = "";
-        String url = "http://localhost:4567";
-        BufferedReader in = null;
+        awaitInitialization();
+    }
+
+    public int requestPathWithInvalidMethod(String path) {
+        int code = 0;
         try {
-            URL realUrl = new URL(url);
-            URLConnection connection = realUrl.openConnection();
-            connection.setRequestProperty("Method", "XYZ");
-            connection.connect();
-            Map<String, List<String>> map = connection.getHeaderFields();
-            for (String key : map.keySet()) {
-                System.out.println(key + "--->" + map.get(key));
-            }
-            in = new BufferedReader(new InputStreamReader(
-                connection.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null) {
-                result += line;
-            }
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpFoo fooMethod = new HttpFoo("http://localhost:" + PORT + path);
+            HttpResponse response = httpClient.execute(fooMethod);
+            code = response.getStatusLine().getStatusCode();
         } catch (Exception e) {
-            return;
+            fail("Unexpected exception: " + e.getMessage());
         }
-        finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+        return code;
+    }
+
+    @Test
+    public void invalidRequestTest(){
+        // Testing that file and service is up:
+        try {
+            SparkTestUtil.UrlResponse response = http.doMethod("GET", SERVICE, "");
+            assertEquals(200, response.status);
+            assertEquals("Hello", response.body);
+
+            response = http.doMethod("GET", FILE, "");
+            assertEquals(200, response.status);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Unexpected exception: " + e.getMessage());
         }
-        assertEquals("", result);
+        // Testing wrong method (we cannot use http.doMethod as it can not handle invalid methods)
+        assertEquals(405, requestPathWithInvalidMethod(FILE));
+        assertEquals(405, requestPathWithInvalidMethod(SERVICE));
     }
 }
