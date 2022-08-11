@@ -44,17 +44,32 @@ public class JettyHandler extends SessionHandler {
 
     @Override
     public void doHandle(
-            String target,
-            Request baseRequest,
-            HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+        String target,
+        Request baseRequest,
+        HttpServletRequest request,
+        HttpServletResponse response) throws IOException, ServletException {
 
         HttpRequestWrapper wrapper = new HttpRequestWrapper(request);
+        final String[] METHODS = {"GET", "POST", "HEAD", "PUT", "OPTIONS", "DELETE", "TRACE", "CONNECT "};
+        boolean isValid = false;
+        for (String METHOD : METHODS) {
+            if (request.getMethod().equalsIgnoreCase(METHOD)) {
+                isValid = true;
+                break;
+            }
+        }
+        if (!isValid) return;
+
         if(consume!=null && consume.contains(baseRequest.getRequestURI())){
             wrapper.notConsumed(true);
-        }
-        else {
+        } else {
             filter.doFilter(wrapper, response, null);
+        }
+
+        if (wrapper.notConsumed()) {
+            baseRequest.setHandled(false);
+        } else {
+            baseRequest.setHandled(true);
         }
         baseRequest.setHandled(!wrapper.notConsumed());
     }
