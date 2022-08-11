@@ -84,7 +84,7 @@ Improvements:
 
 ## Release4
 
-These are the patches included in `unofficial-1`:
+These are the patches included in `unofficial-4`:
 
 Bug fixes:
 * Fixed optional trailing slash when used with params
