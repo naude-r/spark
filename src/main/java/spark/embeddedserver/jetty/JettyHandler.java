@@ -24,6 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jetty.http.HttpMethod;
+import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.session.SessionHandler;
 
@@ -44,18 +46,24 @@ public class JettyHandler extends SessionHandler {
 
     @Override
     public void doHandle(
-            String target,
-            Request baseRequest,
-            HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+        String target,
+        Request baseRequest,
+        HttpServletRequest request,
+        HttpServletResponse response) throws IOException, ServletException {
 
         HttpRequestWrapper wrapper = new HttpRequestWrapper(request);
+        HttpMethod method = HttpMethod.fromString(request.getMethod().trim().toUpperCase());
+        if(method == null) {
+            response.sendError(HttpStatus.METHOD_NOT_ALLOWED_405);
+            return;
+        }
+
         if(consume!=null && consume.contains(baseRequest.getRequestURI())){
             wrapper.notConsumed(true);
-        }
-        else {
+        } else {
             filter.doFilter(wrapper, response, null);
         }
+
         baseRequest.setHandled(!wrapper.notConsumed());
     }
 

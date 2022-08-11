@@ -66,6 +66,15 @@ This is the current status for each PR:
 * :green_circle: **MERGED**: HTTP 2 Support Feature request (Major 3.0 candidate)
   * perwendel/spark#1183 opened on Jul 21, 2020 by luneo7
 
+### Merged (Release 4)
+* :green_circle: **MERGED**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
+    * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
+* :green_circle: **MERGED AND FIXED**: fix issue perwendel/spark/issues/1204
+    * perwendel/spark#1236 opened on May 21, 2021 by FhToday
+* :green_circle: **CHERRY PICKED**: Solve the problem of non-ASCII characters in URL. Try to fix #1026
+    * perwendel/spark#1222 opened on Apr 23, 2021 by Bugjudger
+
+
 ### Rejected
 
 * :red_circle: **REJECTED (Travis was removed)**: Improve Travis CI build Performance
@@ -83,12 +92,6 @@ This is the current status for each PR:
 
 ### To Fix / To Discuss
 
-* :yellow_circle: **TEST FAILING**: Fix perwendel/spark/issues/1077 : Solve the bad route selection based on acceptType
-  * perwendel/spark#1238 opened on May 21, 2021 by Chauncey-Xxy
-* :yellow_circle: **TEST FAILING**: fix issue perwendel/spark/issues/1204
-  * perwendel/spark#1236 opened on May 21, 2021 by FhToday
-* :yellow_circle: **TEST FAILING**: Solve the problem of non-ASCII characters in URL. Try to fix #1026
-  * perwendel/spark#1222 opened on Apr 23, 2021 by Bugjudger
 * :yellow_circle: **MAY BREAK CODE (package name will change)**: Provide Automatic-Module-Name attribute in MANIFEST.MF (issue perwendel/spark/issues/961)
   * perwendel/spark#1212 opened on Mar 10, 2021 by apssouza22
 * :yellow_circle: **MERGE FAILS (#1030 was closed as not-wanted)**: Try to Fix issue perwendel/spark/issues/1022 & perwendel/spark/issues/1030 bug-fix
