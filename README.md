@@ -24,7 +24,7 @@ In order to use this fork version, you need to change your spark dependency.
 <dependency>
   <groupId>com.intellisrc</groupId>
   <artifactId>spark-core</artifactId>
-  <version>2.9.4-unofficial-3</version>
+  <version>2.9.4-unofficial-4</version>
 </dependency>
 ```
 
@@ -32,7 +32,7 @@ In order to use this fork version, you need to change your spark dependency.
 
 ```groovy
 dependencies {
-    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-3'
+    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-4'
 }
 ```
 
@@ -56,6 +56,8 @@ Security:
 
 ## Release 2
 
+These are the patches included in `unofficial-2`:
+
 Bug fixes:
 * Initiate the servlet instance in exception mapper (perwendel#1137)
 
@@ -68,6 +70,8 @@ Improvements:
 
 ## Release 3
 
+These are the patches included in `unofficial-3`:
+
 Bug fixes:
 * Fixed GZip content-length problem - Issue: perwendel#1157 (also perwendel#459, perwendel#742 and perwendel#937)
 
@@ -79,10 +83,16 @@ Improvements:
 * HTTP/2 support (perwendel#1183)
 
 ## Release4
+
+These are the patches included in `unofficial-1`:
+
+Bug fixes:
 * Fixed optional trailing slash when used with params
-* Added unicode support in paths (issue perwendel#1026) (PR: perwendel/spark#1222)
 * Fixed incorrect response based on acceptType (perwendel#1077) (PR: perwendel/spark#1238)
 * Fixed incorrect handling when using invalid methods (perwendel/spark#1236) (PR: perwendel#1204)
+
+Improvements:
+* Added unicode support in paths (issue perwendel#1026) (PR: perwendel/spark#1222)
 
 More details and examples on the differences between the Official version and this one: [DIFFERENCES.md](DIFFERENCES.md)
 
