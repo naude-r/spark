@@ -82,7 +82,7 @@ Improvements:
 * Regex support in paths 
 * HTTP/2 support (perwendel#1183)
 
-## Release4
+## Release 4
 
 These are the patches included in `unofficial-4`:
 
