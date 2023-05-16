@@ -102,6 +102,11 @@ class ResponseWrapper extends Response {
     }
 
     @Override
+    public void header(String header, int value) {
+        delegate.header(header, value);
+    }
+
+    @Override
     public String toString() {
         return delegate.toString();
     }

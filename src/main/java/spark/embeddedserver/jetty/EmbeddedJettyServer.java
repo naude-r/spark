@@ -34,6 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import spark.embeddedserver.EmbeddedServer;
+import spark.embeddedserver.jetty.eventsource.EventSourceHandlerWrapper;
+import spark.embeddedserver.jetty.eventsource.EventSourceServletContextHandlerFactory;
 import spark.embeddedserver.jetty.websocket.WebSocketHandlerWrapper;
 import spark.embeddedserver.jetty.websocket.WebSocketServletContextHandlerFactory;
 import spark.ssl.SslStores;
@@ -55,6 +57,7 @@ public class EmbeddedJettyServer implements EmbeddedServer {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Map<String, WebSocketHandlerWrapper> webSocketHandlers;
+    private Map<String, EventSourceHandlerWrapper> eventSourceHandlers;
     private Optional<Long> webSocketIdleTimeoutMillis;
 
     private ThreadPool threadPool = null;
@@ -71,6 +74,11 @@ public class EmbeddedJettyServer implements EmbeddedServer {
 
         this.webSocketHandlers = webSocketHandlers;
         this.webSocketIdleTimeoutMillis = webSocketIdleTimeoutMillis;
+    }
+
+    @Override
+    public void configureEventSourcing(Map<String, EventSourceHandlerWrapper> eventSourceHandlers) {
+        this.eventSourceHandlers = eventSourceHandlers;
     }
 
     @Override
@@ -135,19 +143,24 @@ public class EmbeddedJettyServer implements EmbeddedServer {
 
         ServletContextHandler webSocketServletContextHandler =
             WebSocketServletContextHandlerFactory.create(webSocketHandlers, webSocketIdleTimeoutMillis);
+        ServletContextHandler eventSourceServletContextHandler =
+            EventSourceServletContextHandlerFactory.create(eventSourceHandlers);
 
         // Handle web socket routes
-        if (webSocketServletContextHandler == null) {
+        if (webSocketServletContextHandler == null && eventSourceServletContextHandler == null) {
             server.setHandler(handler);
         } else {
             List<Handler> handlersInList = new ArrayList<>();
             JettyHandler jettyHandler = (JettyHandler) handler;
             jettyHandler.consume(webSocketHandlers.keySet());
+            jettyHandler.consume(eventSourceHandlers.keySet());
             handlersInList.add(jettyHandler);
 
             // WebSocket handler must be the last one
             if (webSocketServletContextHandler != null) {
                 handlersInList.add(webSocketServletContextHandler);
+            } else {
+                handlersInList.add(eventSourceServletContextHandler);
             }
 
             HandlerList handlers = new HandlerList();

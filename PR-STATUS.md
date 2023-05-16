@@ -74,6 +74,12 @@ This is the current status for each PR:
 * :green_circle: **CHERRY PICKED**: Solve the problem of non-ASCII characters in URL. Try to fix #1026
     * perwendel/spark#1222 opened on Apr 23, 2021 by Bugjudger
 
+### Merged (Release 5)
+* :green_circle: **FIXED**: NullPointerException in response.header
+  * perwendel/spark/issues/1273 opened on Mar1, 2023 by mpkusnierz
+* :green_circle: **MERGED**: Server Sent Events support (perwendel/spark/issues/375)
+  * perwendel/spark#980 opened on Feb 24, 2018 by mtzagkarakis
+
 
 ### Rejected
 

@@ -100,6 +100,8 @@ These are the patches included in `unofficial-5`:
 
 Bug fixes:
 
+Improvements:
+* Added `Server Sent Events` support (issue perwendel#375) (PR: perwendel/spark#980)
 
 More details and examples on the differences between the Official version and this one: [DIFFERENCES.md](DIFFERENCES.md)
 
