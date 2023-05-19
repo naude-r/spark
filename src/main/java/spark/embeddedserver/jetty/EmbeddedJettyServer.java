@@ -57,7 +57,7 @@ public class EmbeddedJettyServer implements EmbeddedServer {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Map<String, WebSocketHandlerWrapper> webSocketHandlers;
-    private Map<String, EventSourceHandlerWrapper> eventSourceHandlers;
+    //private Map<String, EventSourceHandlerWrapper> eventSourceHandlers;
     private Optional<Long> webSocketIdleTimeoutMillis;
 
     private ThreadPool threadPool = null;
@@ -76,10 +76,10 @@ public class EmbeddedJettyServer implements EmbeddedServer {
         this.webSocketIdleTimeoutMillis = webSocketIdleTimeoutMillis;
     }
 
-    @Override
+    /*@Override
     public void configureEventSourcing(Map<String, EventSourceHandlerWrapper> eventSourceHandlers) {
         this.eventSourceHandlers = eventSourceHandlers;
-    }
+    }*/
 
     @Override
     public void trustForwardHeaders(boolean trust) {
@@ -138,30 +138,27 @@ public class EmbeddedJettyServer implements EmbeddedServer {
             server.setConnectors(previousConnectors);
             hasCustomizedConnectors = true;
         } else {
-            server.setConnectors(new Connector[] {connector});
+            server.addConnector(connector);
         }
 
         ServletContextHandler webSocketServletContextHandler =
             WebSocketServletContextHandlerFactory.create(webSocketHandlers, webSocketIdleTimeoutMillis);
-        ServletContextHandler eventSourceServletContextHandler =
-            EventSourceServletContextHandlerFactory.create(eventSourceHandlers);
+        //ServletContextHandler eventSourceServletContextHandler =
+        //    EventSourceServletContextHandlerFactory.create(eventSourceHandlers);
 
         // Handle web socket routes
-        if (webSocketServletContextHandler == null && eventSourceServletContextHandler == null) {
+        if (webSocketServletContextHandler == null) { // && eventSourceServletContextHandler == null) {
             server.setHandler(handler);
         } else {
             List<Handler> handlersInList = new ArrayList<>();
             JettyHandler jettyHandler = (JettyHandler) handler;
             jettyHandler.consume(webSocketHandlers.keySet());
-            jettyHandler.consume(eventSourceHandlers.keySet());
+            //jettyHandler.consume(eventSourceHandlers.keySet());
             handlersInList.add(jettyHandler);
 
             // WebSocket handler must be the last one
-            if (webSocketServletContextHandler != null) {
-                handlersInList.add(webSocketServletContextHandler);
-            } else {
-                handlersInList.add(eventSourceServletContextHandler);
-            }
+            handlersInList.add(webSocketServletContextHandler);
+              //  handlersInList.add(eventSourceServletContextHandler);
 
             HandlerList handlers = new HandlerList();
             handlers.setHandlers(handlersInList.toArray(new Handler[handlersInList.size()]));

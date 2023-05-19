@@ -164,6 +164,7 @@ public class SparkTestUtil {
     public UrlResponse doHttp2Method(String requestMethod, String path, String body, boolean secureConnection,
                                      String acceptType, Map<String, String> reqHeaders) throws Exception {
         org.eclipse.jetty.client.HttpClient http2Client = null;
+
         try {
             http2Client = getHttp2Client();
             http2Client.start();
@@ -205,8 +206,7 @@ public class SparkTestUtil {
         sslContextFactory.setTrustStorePath(getTrustStoreLocation());
         sslContextFactory.setTrustStorePassword(getTrustStorePassword());
 
-        return new org.eclipse.jetty.client.HttpClient(
-            new HttpClientTransportOverHTTP2(http2Client), sslContextFactory);
+        return new org.eclipse.jetty.client.HttpClient(new HttpClientTransportOverHTTP2(http2Client));
     }
 
     private Request getHttp2Request(org.eclipse.jetty.client.HttpClient httpClient,

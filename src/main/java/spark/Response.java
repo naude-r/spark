@@ -16,14 +16,15 @@
  */
 package spark;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Provides functionality for modifying the response

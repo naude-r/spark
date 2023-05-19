@@ -1,12 +1,12 @@
 package spark.embeddedserver.jetty.eventsource;
 
+import java.util.Map;
+
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.servlets.EventSourceServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
 
 public class EventSourceServletContextHandlerFactory {
     private static final Logger logger = LoggerFactory.getLogger(EventSourceServletContextHandlerFactory.class);

@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;

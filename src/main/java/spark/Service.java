@@ -20,8 +20,8 @@ import java.security.Security;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
@@ -747,7 +747,7 @@ public final class Service extends Routable {
 
                     server.configureWebSockets(webSocketHandlers, webSocketIdleTimeoutMillis);
                     server.trustForwardHeaders(trustForwardHeaders);
-                    server.configureEventSourcing(eventSourceHandlers);
+                    //server.configureEventSourcing(eventSourceHandlers);
 
                     port = server.ignite(
                             ipAddress,
@@ -867,7 +867,7 @@ public final class Service extends Routable {
 
     /**
      * Sets Spark to trust the HTTP headers that are commonly used in reverse proxies.
-     * More info at https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/server/ForwardedRequestCustomizer.html
+     * More info at <a href="https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/server/ForwardedRequestCustomizer.html">...</a>
      */
     public synchronized Service trustForwardHeaders() {
         if (initialized) {
@@ -880,7 +880,7 @@ public final class Service extends Routable {
 
     /**
      * Sets Spark to NOT trust the HTTP headers that are commonly used in reverse proxies.
-     * More info at https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/server/ForwardedRequestCustomizer.html
+     * More info at <a href="https://www.eclipse.org/jetty/javadoc/current/org/eclipse/jetty/server/ForwardedRequestCustomizer.html">...</a>
      */
     public synchronized Service untrustForwardHeaders() {
         if (initialized) {

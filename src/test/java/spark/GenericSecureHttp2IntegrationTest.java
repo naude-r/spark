@@ -2,6 +2,7 @@ package spark;
 
 import org.conscrypt.OpenSSLProvider;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import spark.util.SparkTestUtil.UrlResponse;
 

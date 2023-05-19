@@ -40,7 +40,7 @@ public class Routes {
     private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(Routes.class);
     private static final char SINGLE_QUOTE = '\'';
 
-    private final List<RouteEntry> routes;
+    private final CopyOnWriteArrayList<RouteEntry> routes;
 
     public static Routes create() {
         return new Routes();

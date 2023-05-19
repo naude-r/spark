@@ -4,7 +4,7 @@ import org.eclipse.jetty.servlets.EventSource;
 import org.eclipse.jetty.servlets.EventSourceServlet;
 import spark.Spark;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

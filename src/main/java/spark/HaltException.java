@@ -16,7 +16,7 @@
  */
 package spark;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Exception used for stopping the execution
@@ -53,6 +53,7 @@ public class HaltException extends RuntimeException {
      * @return the statusCode
      * @deprecated replaced by {@link #statusCode()}
      */
+    @Deprecated
     public int getStatusCode() {
         return statusCode;
     }
@@ -68,6 +69,7 @@ public class HaltException extends RuntimeException {
      * @return the body
      * @deprecated replaced by {@link #body()}
      */
+    @Deprecated
     public String getBody() {
         return body;
     }

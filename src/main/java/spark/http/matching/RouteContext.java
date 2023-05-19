@@ -16,10 +16,9 @@
  */
 package spark.http.matching;
 
-import javax.servlet.http.HttpServletRequest;
-
+import jakarta.servlet.http.HttpServletRequest;
 import spark.Response;
-import spark.route.*;
+import spark.route.HttpMethod;
 import spark.route.Routes;
 
 /**

@@ -1,5 +1,7 @@
 package spark.embeddedserver.jetty.eventsource;
 
+import java.lang.reflect.InvocationTargetException;
+
 import static java.util.Objects.requireNonNull;
 
 public class EventSourceHandlerClassWrapper implements EventSourceHandlerWrapper {
@@ -12,8 +14,8 @@ public class EventSourceHandlerClassWrapper implements EventSourceHandlerWrapper
     @Override
     public Object getHandler() {
         try {
-            return handlerClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException ex) {
+            return handlerClass.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             throw new RuntimeException("Could not instantiate event source handler", ex);
         }
     }

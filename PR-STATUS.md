@@ -78,7 +78,13 @@ This is the current status for each PR:
 * :green_circle: **MERGED**: Server Sent Events support (perwendel/spark/issues/375)
   * perwendel/spark#980 opened on Feb 24, 2018 by mtzagkarakis
 * :green_circle: **FIXED**: NullPointerException in response.header
-    * perwendel/spark/issues/1273 opened on Mar1, 2023 by mpkusnierz
+  * perwendel/spark/issues/1273 opened on Mar 1, 2023 by mpkusnierz
+* :green_circle: **FIXED**: Make WebSocketServletContextHandlerFactory.create() not static
+  * perwendel/spark/issues/1208 opened on Feb 10, 2020 by buckelieg
+* :green_circle: **FIXED**: ConcurrentModificationException from spark.route.Routes
+    * perwendel/spark/issues/1243 opened on Jun 21, 2021 by AndrewPerforce
+* :green_circle: **FIXED**: Servlet exception mapper cleanup
+    * perwendel/spark/issues/1213 opened on Mar 18, 2021 by sukolenvo
 
 ### Rejected
 
