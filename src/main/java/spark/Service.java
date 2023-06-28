@@ -426,12 +426,7 @@ public final class Service extends Routable {
         if (initialized && !isRunningFromServlet()) {
             throwBeforeRouteMappingException();
         }
-
-        if (!staticFilesConfiguration.isStaticResourcesSet()) {
-            staticFilesConfiguration.configure(folder);
-        } else {
-            LOG.warn("Static file location has already been set");
-        }
+        staticFilesConfiguration.configure(folder);
         return this;
     }
 
@@ -447,11 +442,7 @@ public final class Service extends Routable {
             throwBeforeRouteMappingException();
         }
 
-        if (!staticFilesConfiguration.isExternalStaticResourcesSet()) {
-            staticFilesConfiguration.configureExternal(externalFolder);
-        } else {
-            LOG.warn("External static file location has already been set");
-        }
+        staticFilesConfiguration.configureExternal(externalFolder);
         return this;
     }
 

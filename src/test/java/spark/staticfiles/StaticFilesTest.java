@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -31,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import spark.Spark;
 import spark.examples.exception.NotFoundException;
 import spark.util.SparkTestUtil;
+import spark.utils.IOUtils;
 
 import static spark.Spark.exception;
 import static spark.Spark.get;
@@ -53,13 +55,24 @@ public class StaticFilesTest {
     private static SparkTestUtil testUtil;
 
     private static File tmpExternalFile;
+    private static File tmpExternalDir2;
 
     @AfterClass
     public static void tearDown() {
         Spark.stop();
         if (tmpExternalFile != null) {
-            LOGGER.debug("tearDown().deleting: " + tmpExternalFile);
+            LOGGER.debug("tearDown().deleting: " + tmpExternalFile.getAbsolutePath());
             tmpExternalFile.delete();
+        }
+        if(tmpExternalDir2 != null) {
+            LOGGER.debug("tearDown().deleting directory: " + tmpExternalDir2.getAbsolutePath());
+            File[] files = tmpExternalDir2.listFiles();
+            if (files != null) {
+                for (File f : files) {
+                    f.delete();
+                }
+            }
+            tmpExternalDir2.delete();
         }
     }
 
@@ -74,8 +87,17 @@ public class StaticFilesTest {
         writer.flush();
         writer.close();
 
+        // Second external location
+        tmpExternalDir2 = Files.createTempDirectory("spark").toFile();
+        writer = new FileWriter(new File(tmpExternalDir2, "test.txt").getAbsoluteFile());
+        writer.write(CONTENT_OF_EXTERNAL_FILE);
+        writer.flush();
+        writer.close();
+
         staticFiles.location("/public");
+        staticFiles.location("/private");
         staticFiles.externalLocation(System.getProperty("java.io.tmpdir"));
+        staticFiles.externalLocation(tmpExternalDir2.getAbsolutePath());
 
         get("/hello", (q, a) -> FO_SHIZZY);
 
@@ -137,6 +159,15 @@ public class StaticFilesTest {
         testGet();
     }
 
+    @Test   //This test will check if multiple static directories can be set
+    public void testStaticFileGetPrivate() throws Exception {
+        SparkTestUtil.UrlResponse response = doGet("/secret.text");
+        Assert.assertEquals(200, response.status);
+        Assert.assertTrue(response.body.contains("7AKNTJqvKhLAoTybTdFid9RyX9oVTszEfgVvtALvyimaNrpf"));
+
+        testGet();
+    }
+
     @Test
     public void testDirectoryTraversalProtectionLocal() throws Exception {
         String path = "/" + URLEncoder.encode("..\\spark\\", "UTF-8") + "Spark.class";
@@ -156,6 +187,14 @@ public class StaticFilesTest {
         testGet();
     }
 
+    @Test
+    public void testExternalStaticFileAlt() throws Exception {
+        SparkTestUtil.UrlResponse response = doGet("/test.txt");
+        Assert.assertEquals(200, response.status);
+        Assert.assertEquals(CONTENT_OF_EXTERNAL_FILE, response.body);
+
+        testGet();
+    }
     /**
      * Used to verify that "normal" functionality works after static files mapping
      */
