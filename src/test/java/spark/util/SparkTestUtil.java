@@ -173,15 +173,9 @@ public class SparkTestUtil {
         if(secureConnection) {
             java.net.http.HttpClient client;
             X509TrustManager nullTrustManager = new X509TrustManager() {
-                public void checkClientTrusted(X509Certificate[] chain, String authType) {
-                }
-
-                public void checkServerTrusted(X509Certificate[] chain, String authType) {
-                }
-
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
+                public void checkClientTrusted(X509Certificate[] chain, String authType) {}
+                public void checkServerTrusted(X509Certificate[] chain, String authType) {}
+                public X509Certificate[] getAcceptedIssuers() { return null; }
             };
 
             HostnameVerifier nullHostnameVerifier = (hostname, session) -> true;
@@ -193,7 +187,12 @@ public class SparkTestUtil {
             HttpsURLConnection.setDefaultHostnameVerifier(nullHostnameVerifier);
 
             client = java.net.http.HttpClient.newBuilder().sslContext(sc).build();
-            java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder(httpRequest.getURI()).GET().build();
+            java.net.http.HttpRequest.BodyPublisher bodyPublisher = java.net.http.HttpRequest.BodyPublishers.ofString(body == null ? "" : body);
+
+            java.net.http.HttpRequest.Builder builder = java.net.http.HttpRequest.newBuilder(httpRequest.getURI()).method(requestMethod.toUpperCase(), bodyPublisher);
+            if(reqHeaders != null &&! reqHeaders.isEmpty()) { builder = builder.headers(convertToStringArray(reqHeaders)); }
+            java.net.http.HttpRequest request = builder.build();
+
             java.net.http.HttpResponse<String> response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
             UrlResponse urlResponse = new UrlResponse();
             urlResponse.status = response.statusCode();
@@ -202,7 +201,7 @@ public class SparkTestUtil {
             response.headers().map().keySet().forEach(key -> urlResponse.headers.put(key, response.headers().map().get(key).get(0)));
             return urlResponse;
         } else {
-            /* BROKEN for HTTPS */
+            /* This code does not work for HTTPS. That is the reason of the above code */
             org.eclipse.jetty.client.HttpClient http2Client = null;
 
             try {
@@ -485,4 +484,19 @@ public class SparkTestUtil {
         }
     }
 
+
+    static String[] convertToStringArray(Map<String, String> map) {
+        if (map == null) {
+            return new String[0];
+        }
+        String[] stringArray = new String[map.size() * 2];
+        int index = 0;
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            stringArray[index++] = entry.getKey();
+            stringArray[index++] = entry.getValue();
+        }
+
+        return stringArray;
+    }
 }

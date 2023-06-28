@@ -44,7 +44,9 @@ public abstract class GenericSecureIntegrationTest {
 
         get("/hi", (request, response) -> "Hello World!");
 
-        get("/ip", (request, response) -> request.ip());
+        get("/ip", (request, response) ->
+            request.ip()
+        );
 
         get("/:param", (request, response) -> "echo: " + request.params(":param"));
 

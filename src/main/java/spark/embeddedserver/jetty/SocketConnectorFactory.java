@@ -135,13 +135,12 @@ public class SocketConnectorFactory {
         sslContextFactory.setCipherComparator(HTTP2Cipher.COMPARATOR);
         sslContextFactory.setUseCipherSuitesOrder(true);
 
-        HttpConfiguration httpConfig = createHttpConfiguration(trustForwardHeaders);
         // HTTP(S) Configuration
-        HttpConfiguration httpsConfig = new HttpConfiguration(httpConfig);
-        httpsConfig.addCustomizer(new SecureRequestCustomizer());
+        HttpConfiguration httpConfig = createHttpConfiguration(trustForwardHeaders);
+        HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory(httpConfig);
 
         // HTTP2 factory
-        HTTP2ServerConnectionFactory h2 = new HTTP2ServerConnectionFactory(httpsConfig);
+        HTTP2ServerConnectionFactory h2 = new HTTP2ServerConnectionFactory(httpConfig);
         ALPNServerConnectionFactory alpn = new ALPNServerConnectionFactory();
         alpn.setDefaultProtocol(h2.getProtocol());
 
@@ -149,7 +148,7 @@ public class SocketConnectorFactory {
 
         // HTTP2 Connector
         ServerConnector connector =
-            new ServerConnector(server, ssl, alpn, h2, new HttpConnectionFactory(httpsConfig));
+            new ServerConnector(server, ssl, alpn, h2, httpConnectionFactory);
 
         initializeConnector(connector, host, port);
         return connector;
