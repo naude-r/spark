@@ -74,6 +74,17 @@ This is the current status for each PR:
 * :green_circle: **CHERRY PICKED**: Solve the problem of non-ASCII characters in URL. Try to fix #1026
     * perwendel/spark#1222 opened on Apr 23, 2021 by Bugjudger
 
+### Merged (Release 5)
+* :green_circle: **FIXED**: NullPointerException in response.header
+  * perwendel/spark/issues/1273 opened on Mar 1, 2023 by mpkusnierz
+* :green_circle: **FIXED**: Make WebSocketServletContextHandlerFactory.create() not static
+  * perwendel/spark/issues/1208 opened on Feb 10, 2020 by buckelieg
+* :green_circle: **FIXED**: ConcurrentModificationException from spark.route.Routes
+    * perwendel/spark/issues/1243 opened on Jun 21, 2021 by AndrewPerforce
+* :green_circle: **FIXED**: Servlet exception mapper cleanup
+    * perwendel/spark/issues/1213 opened on Mar 18, 2021 by sukolenvo
+* :green_circle: **FIXED**: Support multiple calls to staticFileLocation
+    * perwendel/spark/issues/568 opened on May 26, 2016 by jylin
 
 ### Rejected
 
@@ -98,3 +109,5 @@ This is the current status for each PR:
   * perwendel/spark#1172 opened on May 31, 2020 by Hamojpk
 * :yellow_circle: **MERGE FAILS (It seems the issues were already solved)**: Fix issue perwendel/spark/issues/986 & perwendel/spark/issues/1146 bug-fix
   * perwendel/spark#1171 opened on May 31, 2020 by WingChan1999
+* :yellow_circle: **BREAKS WEBSOCKETS**: Server Sent Events support (perwendel/spark/issues/375)
+    * perwendel/spark#980 opened on Feb 24, 2018 by mtzagkarakis

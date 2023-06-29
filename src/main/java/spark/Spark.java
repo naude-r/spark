@@ -16,11 +16,11 @@
  */
 package spark;
 
-import spark.routematch.RouteMatch;
-import spark.ssl.SslStores;
-
 import java.util.List;
 import java.util.function.Consumer;
+
+import spark.routematch.RouteMatch;
+import spark.ssl.SslStores;
 
 import static spark.Service.ignite;
 
@@ -968,6 +968,7 @@ public class Spark {
      * @param ipAddress The ipAddress
      * @deprecated replaced by {@link #ipAddress(String)}
      */
+    @Deprecated
     public static void setIpAddress(String ipAddress) {
         getInstance().ipAddress(ipAddress);
     }
@@ -1007,6 +1008,7 @@ public class Spark {
      * @param port The port number
      * @deprecated replaced by {@link #port(int)}
      */
+    @Deprecated
     public static void setPort(int port) {
         getInstance().port(port);
     }
@@ -1048,6 +1050,7 @@ public class Spark {
      * @param truststorePassword the trust store password
      * @deprecated replaced by {@link #secure(String, String, String, String)}
      */
+    @Deprecated
     public static void setSecure(String keystoreFile,
                                  String keystorePassword,
                                  String truststoreFile,
@@ -1286,6 +1289,24 @@ public class Spark {
         getInstance().webSocketIdleTimeoutMillis(timeoutMillis);
     }
 
+    /////////////////
+    // EventSource //
+
+    /**
+     * Maps the given path to the given EventSource handler.
+     * <p>
+     * This is currently only available in the embedded server mode.
+     *
+     * @param path    the EventSource path.
+     * @param handler the handler class that will manage the EventSource connection to the given path.
+     */
+    public static void eventSource(String path, Class<?> handler){
+        getInstance().eventSource(path, handler);
+    }
+
+    public static void eventSource(String path, Object handler){
+        getInstance().eventSource(path, handler);
+    }
     /**
      * Maps 404 Not Found errors to the provided custom page
      */

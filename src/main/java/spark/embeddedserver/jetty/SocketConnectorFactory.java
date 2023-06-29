@@ -25,7 +25,6 @@ import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory;
 import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.NegotiatingServerConnectionFactory;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -78,7 +77,7 @@ public class SocketConnectorFactory {
         Assert.notNull(host, "'host' must not be null");
         Assert.notNull(sslStores, "'sslStores' must not be null");
 
-        SslContextFactory sslContextFactory = createSslContextFactory(sslStores);
+        SslContextFactory.Server sslContextFactory = (SslContextFactory.Server) createSslContextFactory(sslStores);
 
         HttpConfiguration httpConfiguration = createHttpConfiguration(trustForwardHeaders);
         HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory(httpConfiguration);
@@ -106,9 +105,9 @@ public class SocketConnectorFactory {
         HttpConfiguration httpConfiguration = createHttpConfiguration(trustForwardHeaders);
 
         HttpConnectionFactory http1 = new HttpConnectionFactory(httpConfiguration);
-        HTTP2CServerConnectionFactory http2c = new HTTP2CServerConnectionFactory(httpConfiguration);
+        HTTP2CServerConnectionFactory http2 = new HTTP2CServerConnectionFactory(httpConfiguration);
 
-        ServerConnector connector = new ServerConnector(server, http1, http2c);
+        ServerConnector connector = new ServerConnector(server, http1, http2);
         initializeConnector(connector, host, port);
         return connector;
     }
@@ -132,20 +131,25 @@ public class SocketConnectorFactory {
         Assert.notNull(host, "'host' must not be null");
         Assert.notNull(sslStores, "'sslStores' must not be null");
 
-        SslContextFactory sslContextFactory = createSslContextFactory(sslStores);
+        SslContextFactory.Server sslContextFactory = (SslContextFactory.Server) createSslContextFactory(sslStores);
         sslContextFactory.setCipherComparator(HTTP2Cipher.COMPARATOR);
         sslContextFactory.setUseCipherSuitesOrder(true);
 
-        HttpConfiguration httpConfiguration = createHttpConfiguration(trustForwardHeaders);
+        // HTTP(S) Configuration
+        HttpConfiguration httpConfig = createHttpConfiguration(trustForwardHeaders);
+        HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory(httpConfig);
 
-        HttpConnectionFactory http1 = new HttpConnectionFactory(httpConfiguration);
-        HTTP2ServerConnectionFactory http2 = new HTTP2ServerConnectionFactory(httpConfiguration);
-        NegotiatingServerConnectionFactory alpn = new ALPNServerConnectionFactory();
-        alpn.setDefaultProtocol(http1.getProtocol());
+        // HTTP2 factory
+        HTTP2ServerConnectionFactory h2 = new HTTP2ServerConnectionFactory(httpConfig);
+        ALPNServerConnectionFactory alpn = new ALPNServerConnectionFactory();
+        alpn.setDefaultProtocol(h2.getProtocol());
 
         SslConnectionFactory ssl = new SslConnectionFactory(sslContextFactory, alpn.getProtocol());
 
-        ServerConnector connector = new ServerConnector(server, ssl, alpn, http2, http1);
+        // HTTP2 Connector
+        ServerConnector connector =
+            new ServerConnector(server, ssl, alpn, h2, httpConnectionFactory);
+
         initializeConnector(connector, host, port);
         return connector;
     }
@@ -169,7 +173,6 @@ public class SocketConnectorFactory {
 
     private static SslContextFactory createSslContextFactory(SslStores sslStores) {
         SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
-
         sslContextFactory.setKeyStorePath(sslStores.keystoreFile());
 
         if (sslStores.keystorePassword() != null) {

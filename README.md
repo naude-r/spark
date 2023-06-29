@@ -4,7 +4,7 @@
 
 # About this fork (unofficial build)
 
-[![](https://img.shields.io/github/workflow/status/intellisrc/spark/Spark%20Framework%20CI)](https://github.com/Intellisrc/spark/actions/workflows/ci.yml)
+[![](https://img.shields.io/github/actions/workflow/status/intellisrc/spark/ci.yml)](https://github.com/Intellisrc/spark/actions/workflows/ci.yml)
 [![](https://img.shields.io/github/issues-pr-closed/intellisrc/spark)](./PR-STATUS.md)
 [![](https://img.shields.io/github/license/intellisrc/spark.svg)](./LICENSE)
 [![](https://img.shields.io/maven-central/v/com.intellisrc/spark-core.svg)](http://mvnrepository.com/artifact/com.intellisrc/spark-core)
@@ -24,7 +24,7 @@ In order to use this fork version, you need to change your spark dependency.
 <dependency>
   <groupId>com.intellisrc</groupId>
   <artifactId>spark-core</artifactId>
-  <version>2.9.4-unofficial-4</version>
+  <version>2.9.4-unofficial-5</version>
 </dependency>
 ```
 
@@ -32,7 +32,7 @@ In order to use this fork version, you need to change your spark dependency.
 
 ```groovy
 dependencies {
-    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-4'
+    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-5'
 }
 ```
 
@@ -93,6 +93,21 @@ Bug fixes:
 
 Improvements:
 * Added unicode support in paths (issue perwendel#1026) (PR: perwendel/spark#1222)
+
+## Release 5
+
+These are the patches included in `unofficial-5`:
+
+Bug fixes:
+* NullPointerException in response.header (perwendel/spark/issues/1273)
+* Make WebSocketServletContextHandlerFactory.create() not static (perwendel/spark/issues/1208)
+* ConcurrentModificationException from spark.route.Routes (perwendel/spark/issues/1243)
+* Servlet exception mapper cleanup (perwendel/spark/issues/1213)
+
+Improvements:
+* Code updated to Java 11
+* Jetty updated to 11
+* Added support for multiple calls to `staticFileLocation` and `externalStaticFileLocation` (perwendel/spark/issues/568)
 
 More details and examples on the differences between the Official version and this one: [DIFFERENCES.md](DIFFERENCES.md)
 

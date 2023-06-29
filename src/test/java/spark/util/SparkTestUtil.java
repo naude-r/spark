@@ -5,14 +5,19 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.security.KeyStore;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -163,34 +168,70 @@ public class SparkTestUtil {
 
     public UrlResponse doHttp2Method(String requestMethod, String path, String body, boolean secureConnection,
                                      String acceptType, Map<String, String> reqHeaders) throws Exception {
-        org.eclipse.jetty.client.HttpClient http2Client = null;
-        try {
-            http2Client = getHttp2Client();
-            http2Client.start();
-            Request http2Request = getHttp2Request(http2Client, requestMethod, path, body, secureConnection, acceptType, reqHeaders);
-            ContentResponse response = http2Request.send();
 
+        HttpUriRequest httpRequest = getHttpRequest(requestMethod, path, body, secureConnection, acceptType, reqHeaders);
+        if(secureConnection) {
+            java.net.http.HttpClient client;
+            X509TrustManager nullTrustManager = new X509TrustManager() {
+                public void checkClientTrusted(X509Certificate[] chain, String authType) {}
+                public void checkServerTrusted(X509Certificate[] chain, String authType) {}
+                public X509Certificate[] getAcceptedIssuers() { return null; }
+            };
+
+            HostnameVerifier nullHostnameVerifier = (hostname, session) -> true;
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, new TrustManager[] {nullTrustManager}, null);
+
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(nullHostnameVerifier);
+
+            client = java.net.http.HttpClient.newBuilder().sslContext(sc).build();
+            java.net.http.HttpRequest.BodyPublisher bodyPublisher = java.net.http.HttpRequest.BodyPublishers.ofString(body == null ? "" : body);
+
+            java.net.http.HttpRequest.Builder builder = java.net.http.HttpRequest.newBuilder(httpRequest.getURI()).method(requestMethod.toUpperCase(), bodyPublisher);
+            if(reqHeaders != null &&! reqHeaders.isEmpty()) { builder = builder.headers(convertToStringArray(reqHeaders)); }
+            java.net.http.HttpRequest request = builder.build();
+
+            java.net.http.HttpResponse<String> response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
             UrlResponse urlResponse = new UrlResponse();
-            urlResponse.status = response.getStatus();
-
-            if (response.getContent() != null) {
-                urlResponse.body = response.getContentAsString();
-            } else {
-                urlResponse.body = "";
-            }
-            Map<String, String> headers = new HashMap<>();
-            HttpFields allHeaders = response.getHeaders();
-            for (HttpField header : allHeaders) {
-                headers.put(header.getName(), header.getValue());
-            }
-            urlResponse.headers = headers;
-
+            urlResponse.status = response.statusCode();
+            urlResponse.body = response.body();
+            urlResponse.headers = new HashMap<>();
+            response.headers().map().keySet().forEach(key -> urlResponse.headers.put(key, response.headers().map().get(key).get(0)));
             return urlResponse;
-        } finally {
-            if (http2Client != null) {
-                try {
-                    http2Client.stop();
-                } catch (Exception ignored) {
+        } else {
+            /* This code does not work for HTTPS. That is the reason of the above code */
+            org.eclipse.jetty.client.HttpClient http2Client = null;
+
+            try {
+                http2Client = getHttp2Client();
+                http2Client.start();
+                Request http2Request = getHttp2Request(http2Client, requestMethod, path, body, secureConnection, acceptType, reqHeaders);
+                ContentResponse response = http2Request.send();
+
+                UrlResponse urlResponse = new UrlResponse();
+                urlResponse.status = response.getStatus();
+
+                if (response.getContent() != null) {
+                    urlResponse.body = response.getContentAsString();
+                } else {
+                    urlResponse.body = "";
+                }
+                Map<String, String> headers = new HashMap<>();
+                HttpFields allHeaders = response.getHeaders();
+                for (HttpField header : allHeaders) {
+                    headers.put(header.getName(), header.getValue());
+                }
+                urlResponse.headers = headers;
+
+                return urlResponse;
+            } finally {
+                if (http2Client != null) {
+                    try {
+                        http2Client.stop();
+                    } catch (Exception ignored) {
+                    }
                 }
             }
         }
@@ -205,8 +246,7 @@ public class SparkTestUtil {
         sslContextFactory.setTrustStorePath(getTrustStoreLocation());
         sslContextFactory.setTrustStorePassword(getTrustStorePassword());
 
-        return new org.eclipse.jetty.client.HttpClient(
-            new HttpClientTransportOverHTTP2(http2Client), sslContextFactory);
+        return new org.eclipse.jetty.client.HttpClient(new HttpClientTransportOverHTTP2(http2Client));
     }
 
     private Request getHttp2Request(org.eclipse.jetty.client.HttpClient httpClient,
@@ -444,4 +484,19 @@ public class SparkTestUtil {
         }
     }
 
+
+    static String[] convertToStringArray(Map<String, String> map) {
+        if (map == null) {
+            return new String[0];
+        }
+        String[] stringArray = new String[map.size() * 2];
+        int index = 0;
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            stringArray[index++] = entry.getKey();
+            stringArray[index++] = entry.getValue();
+        }
+
+        return stringArray;
+    }
 }

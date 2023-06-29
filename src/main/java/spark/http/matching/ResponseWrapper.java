@@ -16,8 +16,7 @@
  */
 package spark.http.matching;
 
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletResponse;
 import spark.Response;
 
 class ResponseWrapper extends Response {
@@ -98,6 +97,11 @@ class ResponseWrapper extends Response {
 
     @Override
     public void header(String header, String value) {
+        delegate.header(header, value);
+    }
+
+    @Override
+    public void header(String header, int value) {
         delegate.header(header, value);
     }
 

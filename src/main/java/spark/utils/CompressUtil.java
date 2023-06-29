@@ -26,15 +26,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import spark.Response;
 
-import static spark.Response.Compression.*;
+import static spark.Response.Compression.AUTO;
+import static spark.Response.Compression.BROTLI_COMPRESS;
+import static spark.Response.Compression.GZIP_COMPRESS;
+import static spark.Response.Compression.NONE;
 
 /**
  * GZIP utility class.
@@ -199,7 +201,7 @@ public class CompressUtil {
         try {
             Class<?> brotliOutputStream = Class.forName("com.nixxcode.jvmbrotli.enc.BrotliOutputStream");
             Class<?> encoderParams = Class.forName("com.nixxcode.jvmbrotli.enc.Encoder$Parameters");
-            Object encoderParamsInstance = encoderParams.newInstance();
+            Object encoderParamsInstance = encoderParams.getDeclaredConstructor().newInstance();
             Object params = encoderParams.getMethod("setQuality", int.class).invoke(encoderParamsInstance, q);
             responseStream = (OutputStream) brotliOutputStream.getConstructor(OutputStream.class, encoderParams)
                 .newInstance(response, encoderParams.cast(params));

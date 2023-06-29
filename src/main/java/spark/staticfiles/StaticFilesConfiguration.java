@@ -25,12 +25,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import spark.resource.AbstractFileResolvingResource;
 import spark.resource.AbstractResourceHandler;
 import spark.resource.ClassPathResourceHandler;
@@ -140,16 +139,13 @@ public class StaticFilesConfiguration {
     public synchronized void configure(String folder) {
         Assert.notNull(folder, "'folder' must not be null");
 
-        if (!staticResourcesSet) {
-
-            if (staticResourceHandlers == null) {
-                staticResourceHandlers = new ArrayList<>();
-            }
-
-            staticResourceHandlers.add(new ClassPathResourceHandler(folder, "index.html"));
-            LOG.info("StaticResourceHandler configured with folder = " + folder);
-            staticResourcesSet = true;
+        if (staticResourceHandlers == null) {
+            staticResourceHandlers = new ArrayList<>();
         }
+
+        staticResourceHandlers.add(new ClassPathResourceHandler(folder, "index.html"));
+        LOG.info("StaticResourceHandler configured with folder = " + folder);
+        staticResourcesSet = true;
     }
 
     /**
@@ -160,25 +156,22 @@ public class StaticFilesConfiguration {
     public synchronized void configureExternal(String folder) {
         Assert.notNull(folder, "'folder' must not be null");
 
-        if (!externalStaticResourcesSet) {
-            try {
-                ExternalResource resource = new ExternalResource(folder);
-                if (!resource.getFile().isDirectory()) {
-                    LOG.error("External Static resource location must be a folder");
-                    return;
-                }
-
-                if (staticResourceHandlers == null) {
-                    staticResourceHandlers = new ArrayList<>();
-                }
-                staticResourceHandlers.add(new ExternalResourceHandler(folder, "index.html"));
-                LOG.info("External StaticResourceHandler configured with folder = " + folder);
-            } catch (IOException e) {
-                LOG.error("Error when creating external StaticResourceHandler", e);
+        try {
+            ExternalResource resource = new ExternalResource(folder);
+            if (!resource.getFile().isDirectory()) {
+                LOG.error("External Static resource location must be a folder");
+                return;
             }
 
-            externalStaticResourcesSet = true;
+            if (staticResourceHandlers == null) {
+                staticResourceHandlers = new ArrayList<>();
+            }
+            staticResourceHandlers.add(new ExternalResourceHandler(folder, "index.html"));
+            LOG.info("External StaticResourceHandler configured with folder = " + folder);
+        } catch (IOException e) {
+            LOG.error("Error when creating external StaticResourceHandler", e);
         }
+        externalStaticResourcesSet = true;
     }
 
     public static StaticFilesConfiguration create() {

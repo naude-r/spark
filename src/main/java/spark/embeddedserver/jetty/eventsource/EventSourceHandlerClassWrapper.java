@@ -1,16 +1,14 @@
-package spark.embeddedserver.jetty.websocket;
+package spark.embeddedserver.jetty.eventsource;
 
 import java.lang.reflect.InvocationTargetException;
 
 import static java.util.Objects.requireNonNull;
 
-public class WebSocketHandlerClassWrapper implements WebSocketHandlerWrapper {
-    
+public class EventSourceHandlerClassWrapper implements EventSourceHandlerWrapper {
     private final Class<?> handlerClass;
-
-    public WebSocketHandlerClassWrapper(Class<?> handlerClass) {
-        requireNonNull(handlerClass, "WebSocket handler class cannot be null");
-        WebSocketHandlerWrapper.validateHandlerClass(handlerClass);
+    public EventSourceHandlerClassWrapper(Class<?> handlerClass) {
+        requireNonNull(handlerClass, "EventSource handler class cannot be null");
+        EventSourceHandlerWrapper.validateHandlerClass(handlerClass);
         this.handlerClass = handlerClass;
     }
     @Override
@@ -18,8 +16,7 @@ public class WebSocketHandlerClassWrapper implements WebSocketHandlerWrapper {
         try {
             return handlerClass.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-            throw new RuntimeException("Could not instantiate websocket handler", ex);
+            throw new RuntimeException("Could not instantiate event source handler", ex);
         }
     }
-
 }

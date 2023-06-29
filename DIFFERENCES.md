@@ -216,3 +216,14 @@ keytool -importkeystore -deststorepass yourpasswordhere -destkeypass yourpasswor
         -srckeystore example.p12 -srcstoretype PKCS12 -srcstorepass thePasswordYouSetInTheStepBefore \
         -deststoretype JKS -alias example.com
 ```
+
+---------------------------------
+# Multiple calls to staticFiles.location and staticFiles.externalLocation
+
+```java
+staticFiles.location("/html");
+staticFiles.location("/files");
+```
+
+In the example above, Spark will look first in the `html` directory, and if it doesn't find the file there, will
+keep looking in the `files` directory (the same applies for `staticFiles.externalLocation`.
