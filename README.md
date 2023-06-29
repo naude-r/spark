@@ -24,7 +24,7 @@ In order to use this fork version, you need to change your spark dependency.
 <dependency>
   <groupId>com.intellisrc</groupId>
   <artifactId>spark-core</artifactId>
-  <version>2.9.4-unofficial-4</version>
+  <version>2.9.4-unofficial-5</version>
 </dependency>
 ```
 
@@ -32,7 +32,7 @@ In order to use this fork version, you need to change your spark dependency.
 
 ```groovy
 dependencies {
-    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-4'
+    implementation 'com.intellisrc:spark-core:2.9.4-unofficial-5'
 }
 ```
 
@@ -99,9 +99,15 @@ Improvements:
 These are the patches included in `unofficial-5`:
 
 Bug fixes:
+* NullPointerException in response.header (perwendel/spark/issues/1273)
+* Make WebSocketServletContextHandlerFactory.create() not static (perwendel/spark/issues/1208)
+* ConcurrentModificationException from spark.route.Routes (perwendel/spark/issues/1243)
+* Servlet exception mapper cleanup (perwendel/spark/issues/1213)
 
 Improvements:
-* Added `Server Sent Events` support (issue perwendel#375) (PR: perwendel/spark#980)
+* Code updated to Java 11
+* Jetty updated to 11
+* Added support for multiple calls to `staticFileLocation` and `externalStaticFileLocation` (perwendel/spark/issues/568)
 
 More details and examples on the differences between the Official version and this one: [DIFFERENCES.md](DIFFERENCES.md)
 

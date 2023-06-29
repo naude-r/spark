@@ -218,36 +218,12 @@ keytool -importkeystore -deststorepass yourpasswordhere -destkeypass yourpasswor
 ```
 
 ---------------------------------
-# Server Sent Events
-
-Example showing how to use server-sent-events
+# Multiple calls to staticFiles.location and staticFiles.externalLocation
 
 ```java
-public class EventSourceExample {
-    public static void main(String... args){
-        Spark.eventSource("/eventsource", EventSourceServletExample.class);
-        Spark.init();
-    }
-    public static class EventSourceServletExample extends EventSourceServlet{
-        final Queue<EventSource.Emitter> emitters = new ConcurrentLinkedQueue<>();
-        @Override
-        protected EventSource newEventSource(HttpServletRequest request) {
-            return new EventSource() {
-                Emitter emmitter;
-                @Override
-                public void onOpen(Emitter emitter) throws IOException {
-                    this.emmitter = emitter;
-                    emitter.data("Event source data message");
-                    emitters.add(emitter);
-                }
-
-                @Override
-                public void onClose() {
-                    emitters.remove(this.emmitter);
-                    this.emmitter = null;
-                }
-            };
-        }
-    }
-}
+staticFiles.location("/html");
+staticFiles.location("/files");
 ```
+
+In the example above, Spark will look first in the `html` directory, and if it doesn't find the file there, will
+keep looking in the `files` directory (the same applies for `staticFiles.externalLocation`.
