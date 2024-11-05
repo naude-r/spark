@@ -45,13 +45,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
-import org.eclipse.jetty.client.api.ContentResponse;
-import org.eclipse.jetty.client.api.Request;
-import org.eclipse.jetty.client.util.StringContentProvider;
+import org.eclipse.jetty.client.ContentResponse;
+import org.eclipse.jetty.client.Request;
+import org.eclipse.jetty.client.StringRequestContent;
 import org.eclipse.jetty.http.HttpField;
 import org.eclipse.jetty.http.HttpFields;
 import org.eclipse.jetty.http2.client.HTTP2Client;
-import org.eclipse.jetty.http2.client.http.HttpClientTransportOverHTTP2;
+import org.eclipse.jetty.http2.client.transport.HttpClientTransportOverHTTP2;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 import static org.eclipse.jetty.http.HttpVersion.HTTP_2;
@@ -267,7 +267,9 @@ public class SparkTestUtil {
             switch (requestMethod) {
                 case "GET":
                 case "DELETE":
-                    request.header("Accept", acceptType);
+                    request.headers(headers -> headers
+                      .put("Accept", acceptType)
+                    );
                     return request;
                 case "HEAD":
                 case "TRACE":
@@ -277,8 +279,10 @@ public class SparkTestUtil {
                 case "POST":
                 case "PATCH":
                 case "PUT":
-                    request.header("Accept", acceptType);
-                    request.content(new StringContentProvider(body));
+                    request.headers(headers -> headers
+                      .put("Accept", acceptType)
+                    );
+                    request.body(new StringRequestContent(body));
                     return request;
                 default:
                     throw new IllegalArgumentException("Unknown method " + requestMethod);
@@ -370,9 +374,11 @@ public class SparkTestUtil {
 
     private void addHeaders(Map<String, String> reqHeaders, Request req) {
         if (reqHeaders != null) {
-            for (Map.Entry<String, String> header : reqHeaders.entrySet()) {
-                req.header(header.getKey(), header.getValue());
-            }
+            req.headers(headers -> {
+                for (Map.Entry<String, String> header : reqHeaders.entrySet()) {
+                    headers.put(header.getKey(), header.getValue());
+                }
+            });
         }
     }
 

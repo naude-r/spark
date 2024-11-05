@@ -1,5 +1,6 @@
 package spark;
 
+import org.eclipse.jetty.websocket.api.Callback;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
@@ -115,10 +116,10 @@ class Chat{
     public static void broadcastMessage(String sender, String message) {
         userUsernameMap.keySet().stream().filter(Session::isOpen).forEach(session -> {
             try {
-                session.getRemote().sendString(String.valueOf(new JSONObject()
+                session.sendText(String.valueOf(new JSONObject()
                     .put("userMessage", createHtmlMessageFromSender(sender, message))
                     .put("userlist", userUsernameMap.values())
-                ));
+                ), Callback.NOOP);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -140,7 +141,7 @@ class ChatWebSocketHandler {
 
     private String sender, msg;
 
-    @OnWebSocketConnect
+    @OnWebSocketOpen
     public void onConnect(Session user) throws Exception {
         String username = "User" + Chat.nextUserNumber++;
         Chat.userUsernameMap.put(user, username);

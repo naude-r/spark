@@ -211,10 +211,10 @@ public class SocketConnectorFactoryTest {
         SslContextFactory sslContextFactory = sslConnectionFactory.getSslContextFactory();
 
         assertEquals("Should return the Keystore file specified", keystoreFile,
-                sslContextFactory.getKeyStoreResource().getFile().getName());
+                sslContextFactory.getKeyStoreResource().getFileName());
 
         assertEquals("Should return the Truststore file specified", truststoreFile,
-                sslContextFactory.getTrustStoreResource().getFile().getName());
+                sslContextFactory.getTrustStoreResource().getFileName());
 
     }
 
@@ -251,10 +251,10 @@ public class SocketConnectorFactoryTest {
         SslContextFactory sslContextFactory = sslConnectionFactory.getSslContextFactory();
 
         assertEquals("Should return the Keystore file specified", keystoreFile,
-                     sslContextFactory.getKeyStoreResource().getFile().getName());
+                     sslContextFactory.getKeyStoreResource().getFileName());
 
         assertEquals("Should return the Truststore file specified", truststoreFile,
-                     sslContextFactory.getTrustStoreResource().getFile().getName());
+                     sslContextFactory.getTrustStoreResource().getFileName());
 
     }
 

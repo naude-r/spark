@@ -2,9 +2,9 @@ package spark.embeddedserver.jetty.eventsource;
 
 import java.util.Map;
 
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.servlets.EventSourceServlet;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlets.EventSourceServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ public class EventSourceServletContextHandlerFactory {
         ServletContextHandler eventSourceServletContextHandler = null;
         if (eventSourceHandlers != null) {
             try {
-                eventSourceServletContextHandler = new ServletContextHandler(null, "/", true, false);
+                eventSourceServletContextHandler = new ServletContextHandler("/", true, false);
                 addToExistingContext(eventSourceServletContextHandler, eventSourceHandlers);
             } catch (Exception ex) {
                 logger.error("creation of event source context handler failed.", ex);

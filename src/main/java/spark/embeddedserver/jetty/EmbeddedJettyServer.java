@@ -16,6 +16,7 @@
  */
 package spark.embeddedserver.jetty;
 
+import jakarta.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -23,12 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,9 +63,9 @@ public class EmbeddedJettyServer implements EmbeddedServer {
     private ThreadPool threadPool = null;
     private boolean trustForwardHeaders = true; // true by default
 
-    public EmbeddedJettyServer(JettyServerFactory serverFactory, Handler handler) {
+    public EmbeddedJettyServer(JettyServerFactory serverFactory, HttpServlet servlet, boolean httpOnly) {
         this.serverFactory = serverFactory;
-        this.handler = handler;
+        this.handler = toServletHandler(servlet, httpOnly);
     }
 
     @Override
@@ -154,14 +154,13 @@ public class EmbeddedJettyServer implements EmbeddedServer {
             JettyHandler jettyHandler = (JettyHandler) handler;
             jettyHandler.consume(webSocketHandlers.keySet());
             //jettyHandler.consume(eventSourceHandlers.keySet());
-            handlersInList.add(jettyHandler);
+            handlersInList.add(handler);
 
             // WebSocket handler must be the last one
             handlersInList.add(webSocketServletContextHandler);
               //  handlersInList.add(eventSourceServletContextHandler);
 
-            HandlerList handlers = new HandlerList();
-            handlers.setHandlers(handlersInList.toArray(new Handler[handlersInList.size()]));
+            Handler.Sequence handlers = new Handler.Sequence(new Handler[handlersInList.size()]);
             server.setHandler(handlers);
         }
 
@@ -218,5 +217,16 @@ public class EmbeddedJettyServer implements EmbeddedServer {
     public EmbeddedJettyServer withThreadPool(ThreadPool threadPool) {
         this.threadPool = threadPool;
         return this;
+    }
+
+    private static ServletContextHandler toServletHandler(final HttpServlet servlet, boolean httpOnly) {
+        ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        servletContextHandler.setContextPath("/");
+
+        // Add Application Servlets
+        servletContextHandler.addServlet(servlet, "/");
+        servletContextHandler.getSessionHandler().getSessionCookieConfig().setHttpOnly(httpOnly);
+
+        return servletContextHandler;
     }
 }

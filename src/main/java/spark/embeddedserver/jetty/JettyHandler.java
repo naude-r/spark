@@ -22,19 +22,23 @@ import java.util.Set;
 import org.eclipse.jetty.http.HttpMethod;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.session.SessionHandler;
+import org.eclipse.jetty.server.Response;
+import org.eclipse.jetty.util.Callback;
+import org.eclipse.jetty.session.SessionHandler;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
 
 /**
  * Simple Jetty Handler
  *
  * @author Per Wendel
  */
-public class JettyHandler extends SessionHandler {
+public class JettyHandler extends HttpServlet {
 
     private final Filter filter;
 
@@ -45,12 +49,7 @@ public class JettyHandler extends SessionHandler {
     }
 
     @Override
-    public void doHandle(
-        String target,
-        Request baseRequest,
-        HttpServletRequest request,
-        HttpServletResponse response) throws IOException, ServletException {
-
+    protected void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         HttpRequestWrapper wrapper = new HttpRequestWrapper(request);
         HttpMethod method = HttpMethod.fromString(request.getMethod().trim().toUpperCase());
         if(method == null) {
@@ -58,13 +57,11 @@ public class JettyHandler extends SessionHandler {
             return;
         }
 
-        if(consume!=null && consume.contains(baseRequest.getRequestURI())){
+        if(consume!=null && consume.contains(request.getRequestURI())){
             wrapper.notConsumed(true);
         } else {
             filter.doFilter(wrapper, response, null);
         }
-
-        baseRequest.setHandled(!wrapper.notConsumed());
     }
 
     public void consume(Set<String> consume){

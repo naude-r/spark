@@ -1,6 +1,6 @@
 package spark.embeddedserver.jetty.eventsource;
 
-import org.eclipse.jetty.servlets.EventSourceServlet;
+import org.eclipse.jetty.ee10.servlets.EventSourceServlet;
 
 /**
  * A wrapper for event source handler classes/instances.

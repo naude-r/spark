@@ -20,9 +20,9 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.websocket.server.JettyWebSocketCreator;
-import org.eclipse.jetty.websocket.server.config.JettyWebSocketServletContainerInitializer;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.websocket.server.JettyWebSocketCreator;
+import org.eclipse.jetty.ee10.websocket.server.config.JettyWebSocketServletContainerInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +60,7 @@ public class WebSocketServletContextHandlerFactory {
         ServletContextHandler webSocketServletContextHandler = null;
         if (webSocketHandlers != null) {
             try {
-                webSocketServletContextHandler = new ServletContextHandler(null, "/", true, false);
+                webSocketServletContextHandler = new ServletContextHandler("/", true, false);
                 JettyWebSocketServletContainerInitializer.configure(webSocketServletContextHandler, (servletContext, wsContainer) ->
                 {
                     if (webSocketIdleTimeoutMillis.isPresent()) {

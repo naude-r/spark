@@ -10,9 +10,9 @@ import java.util.Optional;
 
 import jakarta.servlet.ServletContext;
 
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.http.pathmap.MappedResource;
 import org.eclipse.jetty.http.pathmap.PathSpec;
-import org.eclipse.jetty.servlet.ServletContextHandler;
 /*
 import org.eclipse.jetty.websocket.server.NativeWebSocketConfiguration;
 import org.eclipse.jetty.websocket.server.WebSocketServerFactory;

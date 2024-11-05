@@ -3,11 +3,11 @@ package spark.servlet;
 import java.nio.file.Files;
 import java.util.concurrent.CountDownLatch;
 
+import org.eclipse.jetty.ee10.servlet.FilterHolder;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class ServletCleanupAfterRestartTest {
         WebAppContext bb = new WebAppContext();
         bb.setServer(server);
         bb.setContextPath("/context");
-        bb.setResourceBase(Files.createTempDirectory("temp").toString());
+        bb.setTempDirectory(Files.createTempDirectory("temp").toFile());
         bb.addFilter(new FilterHolder(new SparkFilter() {
             @Override
             protected SparkApplication[] getApplications(FilterConfig filterConfig) throws ServletException {
