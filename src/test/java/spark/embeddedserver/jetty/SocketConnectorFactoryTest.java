@@ -9,7 +9,10 @@ import org.junit.Test;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import spark.ssl.SslStores;
+import spark.util.SparkTestUtil;
 
+import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -185,10 +188,10 @@ public class SocketConnectorFactoryTest {
         final String host = "localhost";
         final int port = 8888;
 
-        final String keystoreFile = "keystoreFile.jks";
-        final String keystorePassword = "keystorePassword";
-        final String truststoreFile = "truststoreFile.jks";
-        final String trustStorePassword = "trustStorePassword";
+        final String keystoreFile = SparkTestUtil.getKeyStoreLocation();
+        final String keystorePassword = SparkTestUtil.getKeystorePassword();
+        final String truststoreFile = SparkTestUtil.getTrustStoreLocation();
+        final String trustStorePassword = SparkTestUtil.getTrustStorePassword();
 
         SslStores sslStores = SslStores.create(keystoreFile, keystorePassword, truststoreFile, trustStorePassword);
 
@@ -211,10 +214,10 @@ public class SocketConnectorFactoryTest {
         SslContextFactory sslContextFactory = sslConnectionFactory.getSslContextFactory();
 
         assertEquals("Should return the Keystore file specified", keystoreFile,
-                sslContextFactory.getKeyStoreResource().getFile().getName());
+                sslContextFactory.getKeyStoreResource().getPath().toString());
 
         assertEquals("Should return the Truststore file specified", truststoreFile,
-                sslContextFactory.getTrustStoreResource().getFile().getName());
+                sslContextFactory.getTrustStoreResource().getPath().toString());
 
     }
 
@@ -225,10 +228,10 @@ public class SocketConnectorFactoryTest {
         final String host = "localhost";
         final int port = 8888;
 
-        final String keystoreFile = "keystoreFile.jks";
-        final String keystorePassword = "keystorePassword";
-        final String truststoreFile = "truststoreFile.jks";
-        final String trustStorePassword = "trustStorePassword";
+        final String keystoreFile = SparkTestUtil.getKeyStoreLocation();
+        final String keystorePassword = SparkTestUtil.getKeystorePassword();
+        final String truststoreFile = SparkTestUtil.getTrustStoreLocation();
+        final String trustStorePassword = SparkTestUtil.getTrustStorePassword();
 
         SslStores sslStores = SslStores.create(keystoreFile, keystorePassword, truststoreFile, trustStorePassword);
 
@@ -251,10 +254,10 @@ public class SocketConnectorFactoryTest {
         SslContextFactory sslContextFactory = sslConnectionFactory.getSslContextFactory();
 
         assertEquals("Should return the Keystore file specified", keystoreFile,
-                     sslContextFactory.getKeyStoreResource().getFile().getName());
+                     sslContextFactory.getKeyStoreResource().getPath().toString());
 
         assertEquals("Should return the Truststore file specified", truststoreFile,
-                     sslContextFactory.getTrustStoreResource().getFile().getName());
+                     sslContextFactory.getTrustStoreResource().getPath().toString());
 
     }
 

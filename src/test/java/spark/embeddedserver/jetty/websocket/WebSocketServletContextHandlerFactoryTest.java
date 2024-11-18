@@ -1,28 +1,12 @@
 package spark.embeddedserver.jetty.websocket;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import jakarta.servlet.ServletContext;
-
-import org.eclipse.jetty.http.pathmap.MappedResource;
-import org.eclipse.jetty.http.pathmap.PathSpec;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-/*
-import org.eclipse.jetty.websocket.server.NativeWebSocketConfiguration;
-import org.eclipse.jetty.websocket.server.WebSocketServerFactory;
-import org.eclipse.jetty.websocket.server.WebSocketUpgradeFilter;
-import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
-
- */
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.junit.Test;
 
-//@RunWith(PowerMockRunner.class)
+import java.util.Optional;
+
+import static org.junit.Assert.assertNull;
+
 public class WebSocketServletContextHandlerFactoryTest {
 
     final String webSocketPath = "/websocket";
@@ -36,7 +20,7 @@ public class WebSocketServletContextHandlerFactoryTest {
         assertNull("Should return null because no WebSocket Handlers were passed", servletContextHandler);
 
     }
-/* These tests were commented when code was updated to use Java 17 / Jetty 11
+/*
     @Test
     public void testCreate_whenNoIdleTimeoutIsPresent() throws Exception {
 

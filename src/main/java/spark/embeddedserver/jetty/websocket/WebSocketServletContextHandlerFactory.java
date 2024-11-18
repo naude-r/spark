@@ -16,15 +16,15 @@
  */
 package spark.embeddedserver.jetty.websocket;
 
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.websocket.server.JettyWebSocketCreator;
+import org.eclipse.jetty.ee10.websocket.server.config.JettyWebSocketServletContainerInitializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
-
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.websocket.server.JettyWebSocketCreator;
-import org.eclipse.jetty.websocket.server.config.JettyWebSocketServletContainerInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Creates websocket servlet context handlers.
@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 public class WebSocketServletContextHandlerFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketServletContextHandlerFactory.class);
-
 
     /**
      * Creates a new websocket servlet context handler.
@@ -42,46 +41,33 @@ public class WebSocketServletContextHandlerFactory {
      * @return a new websocket servlet context handler or 'null' if creation failed.
      */
     public static ServletContextHandler create(Map<String, WebSocketHandlerWrapper> webSocketHandlers,
-                                        Optional<Long> webSocketIdleTimeoutMillis) {
-        return new WebSocketServletContextHandlerFactory().createContextHandler(webSocketHandlers, webSocketIdleTimeoutMillis);
-    }
-
-    /**
-     * Creates a new websocket servlet context handler.
-     * Alias of create(...) but not static, to be able to customize web socket handlers
-     * <a href="https://github.com/perwendel/spark/issues/1208">...</a>
-     *
-     * @param webSocketHandlers             webSocketHandlers
-     * @param webSocketIdleTimeoutMillis    webSocketIdleTimeoutMillis
-     * @return a new websocket servlet context handler or 'null' if creation failed.
-     */
-    public ServletContextHandler createContextHandler(Map<String, WebSocketHandlerWrapper> webSocketHandlers,
                                                Optional<Long> webSocketIdleTimeoutMillis) {
-        ServletContextHandler webSocketServletContextHandler = null;
-        if (webSocketHandlers != null) {
-            try {
-                webSocketServletContextHandler = new ServletContextHandler(null, "/", true, false);
-                JettyWebSocketServletContainerInitializer.configure(webSocketServletContextHandler, (servletContext, wsContainer) ->
-                {
-                    if (webSocketIdleTimeoutMillis.isPresent()) {
-                        // timeout
-                        long to = webSocketIdleTimeoutMillis.get();
-                        wsContainer.setIdleTimeout(Duration.ofMillis(to));
-                    }
-                    // Configure default max size
-                    //wsContainer.setMaxTextMessageSize(65535);
-                    for (String path : webSocketHandlers.keySet()) {
-                        JettyWebSocketCreator webSocketCreator = WebSocketCreatorFactory.createWS(webSocketHandlers.get(path));
-                        // Add websockets
-                        wsContainer.addMapping(path, webSocketCreator);
-                    }
-                });
-            } catch (Exception ex) {
-                logger.error("creation of websocket context handler failed.", ex);
-                webSocketServletContextHandler = null;
-            }
+        if ( webSocketHandlers == null ) return null;
+        try {
+            ServletContextHandler webSocketServletContextHandler = new ServletContextHandler();
+            // Since we are configuring WebSockets before the ServletContextHandler and WebSocketUpgradeFilter is
+            // even initialized / started, then we have to pre-populate the configuration that will eventually
+            // be used by Jetty's WebSocketUpgradeFilter.
+            JettyWebSocketServletContainerInitializer.configure(webSocketServletContextHandler, (servletContext, wsContainer) ->
+            {
+                if (webSocketIdleTimeoutMillis.isPresent()) {
+                    // timeout
+                    long to = webSocketIdleTimeoutMillis.get();
+                    wsContainer.setIdleTimeout(Duration.ofMillis(to));
+                }
+                // Configure default max size
+                //wsContainer.setMaxTextMessageSize(65535);
+                for (String path : webSocketHandlers.keySet()) {
+                    JettyWebSocketCreator webSocketCreator = WebSocketCreatorFactory.createWS(webSocketHandlers.get(path));
+                    // Add websockets
+                    wsContainer.addMapping(path, webSocketCreator);
+                }
+            });
+            //webSocketConfiguration.addMapping(new ServletPathSpec(path), webSocketCreator);
+            return webSocketServletContextHandler;
+        } catch (Exception ex) {
+            logger.error("creation of websocket context handler failed.", ex);
         }
-        return webSocketServletContextHandler;
+        return null;
     }
-
 }

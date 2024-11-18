@@ -19,7 +19,6 @@ package spark.embeddedserver;
 import java.util.Map;
 import java.util.Optional;
 
-import spark.embeddedserver.jetty.eventsource.EventSourceHandlerWrapper;
 import spark.embeddedserver.jetty.websocket.WebSocketHandlerWrapper;
 import spark.ssl.SslStores;
 
@@ -69,15 +68,6 @@ public interface EmbeddedServer {
                                      Optional<Long> webSocketIdleTimeoutMillis) {
 
         NotSupportedException.raise(getClass().getSimpleName(), "Web Sockets");
-    }
-
-    /**
-     * Configures the event source servlets for the embedded server.
-     *
-     * @param eventSourceHandlers          - event source handlers.
-     */
-    default void configureEventSourcing(Map<String, EventSourceHandlerWrapper> eventSourceHandlers) {
-        NotSupportedException.raise(getClass().getSimpleName(), "Event Source Servlets");
     }
 
     /**

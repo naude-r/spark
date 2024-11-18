@@ -19,6 +19,9 @@ package spark.route;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spark.utils.SparkUtils;
 import spark.utils.StringUtils;
 
@@ -28,6 +31,8 @@ import spark.utils.StringUtils;
  * @author Per Wendel
  */
 class RouteEntry {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RouteEntry.class);
 
     HttpMethod httpMethod;
     String path;
@@ -49,6 +54,7 @@ class RouteEntry {
                 && (this.httpMethod == httpMethod)
                 && this.path.equals(SparkUtils.ALL_PATHS)) {
             // Is filter and matches all
+
             return true;
         }
         boolean match = false;

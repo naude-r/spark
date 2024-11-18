@@ -56,10 +56,10 @@ public class InvalidRequestTest {
 
     public int requestPathWithInvalidMethod(String path) {
         int code = 0;
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpFoo fooMethod = new HttpFoo("http://localhost:" + PORT + path);
             HttpResponse response = httpClient.execute(fooMethod);
+
             code = response.getStatusLine().getStatusCode();
         } catch (Exception e) {
             fail("Unexpected exception: " + e.getMessage());

@@ -121,8 +121,8 @@ public class StaticFilesExternalTest {
         String path = "/" + URLEncoder.encode("..\\..\\spark\\", "UTF-8") + "Spark.class";
         SparkTestUtil.UrlResponse response = doGet(path);
 
-        Assert.assertEquals(404, response.status);
-        Assert.assertEquals(NOT_FOUND_BRO, response.body);
+        Assert.assertEquals(400, response.status);
+        Assert.assertNotEquals(response.body.indexOf("Suspicious Path Character"), -1);
 
         testGet();
     }
