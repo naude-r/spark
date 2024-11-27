@@ -1,5 +1,6 @@
 package spark;
 
+import org.eclipse.jetty.client.HttpClient;
 import org.junit.BeforeClass;
 import spark.util.SparkTestUtil.UrlResponse;
 
@@ -31,5 +32,10 @@ public class GenericHttp1IntegrationTest extends GenericIntegrationTest {
                          String acceptType,
                          Map<String, String> reqHeaders) throws Exception {
         return testUtil.doMethod(requestMethod, path, body, secureConnection, acceptType, reqHeaders);
+    }
+
+    @Override
+    HttpClient createHttpClient() {
+        return new HttpClient();
     }
 }

@@ -199,7 +199,7 @@ public class CompressUtil {
      * @return compressed content
      * @throws RuntimeException In case it was unable to compress
      */
-    private static OutputStream getBrotliOutputStream(OutputStream response, int q) throws RuntimeException {
+    public static OutputStream getBrotliOutputStream(OutputStream response, int q) throws RuntimeException {
         OutputStream responseStream;
         if (q <= 0) q = 10;
         if (q > 11) q = 11;

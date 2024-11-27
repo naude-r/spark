@@ -16,15 +16,15 @@
  */
 package spark.embeddedserver.jetty.websocket;
 
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.websocket.server.JettyWebSocketCreator;
+import org.eclipse.jetty.ee10.websocket.server.config.JettyWebSocketServletContainerInitializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
-
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.websocket.server.JettyWebSocketCreator;
-import org.eclipse.jetty.websocket.server.config.JettyWebSocketServletContainerInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Creates websocket servlet context handlers.
@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 public class WebSocketServletContextHandlerFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketServletContextHandlerFactory.class);
-
 
     /**
      * Creates a new websocket servlet context handler.
@@ -42,25 +41,11 @@ public class WebSocketServletContextHandlerFactory {
      * @return a new websocket servlet context handler or 'null' if creation failed.
      */
     public static ServletContextHandler create(Map<String, WebSocketHandlerWrapper> webSocketHandlers,
-                                        Optional<Long> webSocketIdleTimeoutMillis) {
-        return new WebSocketServletContextHandlerFactory().createContextHandler(webSocketHandlers, webSocketIdleTimeoutMillis);
-    }
-
-    /**
-     * Creates a new websocket servlet context handler.
-     * Alias of create(...) but not static, to be able to customize web socket handlers
-     * <a href="https://github.com/perwendel/spark/issues/1208">...</a>
-     *
-     * @param webSocketHandlers             webSocketHandlers
-     * @param webSocketIdleTimeoutMillis    webSocketIdleTimeoutMillis
-     * @return a new websocket servlet context handler or 'null' if creation failed.
-     */
-    public ServletContextHandler createContextHandler(Map<String, WebSocketHandlerWrapper> webSocketHandlers,
                                                Optional<Long> webSocketIdleTimeoutMillis) {
         ServletContextHandler webSocketServletContextHandler = null;
         if (webSocketHandlers != null) {
             try {
-                webSocketServletContextHandler = new ServletContextHandler(null, "/", true, false);
+                webSocketServletContextHandler = new ServletContextHandler("/", true, false);
                 JettyWebSocketServletContainerInitializer.configure(webSocketServletContextHandler, (servletContext, wsContainer) ->
                 {
                     if (webSocketIdleTimeoutMillis.isPresent()) {
@@ -83,5 +68,4 @@ public class WebSocketServletContextHandlerFactory {
         }
         return webSocketServletContextHandler;
     }
-
 }

@@ -5,8 +5,6 @@ import java.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.servlets.EventSource;
-import org.eclipse.jetty.servlets.EventSourceServlet;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.junit.Before;
 import org.junit.Rule;
@@ -312,40 +310,5 @@ public class ServiceTest {
 
     @WebSocket
     protected static class DummyWebSocketListener {
-    }
-
-    @Test
-    public void testEventSource_whenInitializedTrue_thenThrowIllegalStateException() {
-        thrown.expect(IllegalStateException.class);
-        thrown.expectMessage("This must be done before route mapping has begun");
-
-        Whitebox.setInternalState(service, "initialized", true);
-        service.eventSource("/", EventSourceListener.class);
-    }
-
-    @Test
-    public void testEventSource_whenPathNull_thenThrowNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("EventSource path cannot be null");
-        service.eventSource(null, new EventSourceListener());
-    }
-
-    @Test
-    public void testEventSource_whenHandlerNull_thenThrowNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("EventSource handler class cannot be null");
-        service.eventSource("/", null);
-    }
-
-    protected static class EventSourceListener extends EventSourceServlet{
-        @Override
-        protected EventSource newEventSource(HttpServletRequest request) {
-            return new EventSource() {
-                @Override
-                public void onOpen(Emitter emitter) throws IOException { }
-                @Override
-                public void onClose() {}
-            };
-        }
     }
 }

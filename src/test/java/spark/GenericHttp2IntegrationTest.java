@@ -1,5 +1,8 @@
 package spark;
 
+import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.http2.client.HTTP2Client;
+import org.eclipse.jetty.http2.client.transport.HttpClientTransportOverHTTP2;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import spark.util.SparkTestUtil.UrlResponse;
@@ -42,5 +45,10 @@ public class GenericHttp2IntegrationTest extends GenericIntegrationTest {
         UrlResponse responseHttp = testUtil.doMethod("GET", "/hi", null);
         assertEquals(200, responseHttp.status);
         assertEquals("Hello World!", responseHttp.body);
+    }
+
+    @Override
+    HttpClient createHttpClient() {
+        return new HttpClient(new HttpClientTransportOverHTTP2(new HTTP2Client()));
     }
 }

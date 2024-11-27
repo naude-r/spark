@@ -92,22 +92,26 @@ public class MatcherFilter implements Filter {
                          ServletResponse servletResponse,
                          FilterChain chain) throws IOException, ServletException {
 
-        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+        final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+        final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+
+        final String method = getHttpMethodFrom(httpRequest);
+        final String httpMethodStr = method.toLowerCase();
+        final HttpMethod httpMethod = HttpMethod.get(httpMethodStr);
+        if (httpMethod == HttpMethod.unsupported) {
+            httpResponse.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+            return;
+        }
 
         // handle static resources
         boolean consumedByStaticFile = staticFiles.consume(httpRequest, httpResponse);
-
         if (consumedByStaticFile) {
             return;
         }
 
-        String method = getHttpMethodFrom(httpRequest);
-
-        String httpMethodStr = method.toLowerCase();
+        String acceptType = httpRequest.getHeader(ACCEPT_TYPE_REQUEST_MIME_HEADER);
         String uri = httpRequest.getRequestURI();
         uri = URLDecoder.decode(uri, "UTF-8");
-        String acceptType = httpRequest.getHeader(ACCEPT_TYPE_REQUEST_MIME_HEADER);
 
         List<RouteMatch> routes = routeMatcher.findAll();
         String firstAcceptType = null;
@@ -121,14 +125,11 @@ public class MatcherFilter implements Filter {
             acceptType = firstAcceptType;
         }
 
-        Body body = Body.create();
+        final Body body = Body.create();
 
-        RequestWrapper requestWrapper = RequestWrapper.create();
-        ResponseWrapper responseWrapper = ResponseWrapper.create();
-
-        Response response = RequestResponseFactory.create(httpResponse);
-
-        HttpMethod httpMethod = HttpMethod.get(httpMethodStr);
+        final RequestWrapper requestWrapper = RequestWrapper.create();
+        final ResponseWrapper responseWrapper = ResponseWrapper.create();
+        final Response response = RequestResponseFactory.create(httpResponse);
 
         RouteContext context = RouteContext.create()
                 .withMatcher(routeMatcher)
