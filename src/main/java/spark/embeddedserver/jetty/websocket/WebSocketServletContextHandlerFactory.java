@@ -42,32 +42,30 @@ public class WebSocketServletContextHandlerFactory {
      */
     public static ServletContextHandler create(Map<String, WebSocketHandlerWrapper> webSocketHandlers,
                                                Optional<Long> webSocketIdleTimeoutMillis) {
-        if ( webSocketHandlers == null ) return null;
-        try {
-            ServletContextHandler webSocketServletContextHandler = new ServletContextHandler();
-            // Since we are configuring WebSockets before the ServletContextHandler and WebSocketUpgradeFilter is
-            // even initialized / started, then we have to pre-populate the configuration that will eventually
-            // be used by Jetty's WebSocketUpgradeFilter.
-            JettyWebSocketServletContainerInitializer.configure(webSocketServletContextHandler, (servletContext, wsContainer) ->
-            {
-                if (webSocketIdleTimeoutMillis.isPresent()) {
-                    // timeout
-                    long to = webSocketIdleTimeoutMillis.get();
-                    wsContainer.setIdleTimeout(Duration.ofMillis(to));
-                }
-                // Configure default max size
-                //wsContainer.setMaxTextMessageSize(65535);
-                for (String path : webSocketHandlers.keySet()) {
-                    JettyWebSocketCreator webSocketCreator = WebSocketCreatorFactory.createWS(webSocketHandlers.get(path));
-                    // Add websockets
-                    wsContainer.addMapping(path, webSocketCreator);
-                }
-            });
-            //webSocketConfiguration.addMapping(new ServletPathSpec(path), webSocketCreator);
-            return webSocketServletContextHandler;
-        } catch (Exception ex) {
-            logger.error("creation of websocket context handler failed.", ex);
+        ServletContextHandler webSocketServletContextHandler = null;
+        if (webSocketHandlers != null) {
+            try {
+                webSocketServletContextHandler = new ServletContextHandler("/", true, false);
+                JettyWebSocketServletContainerInitializer.configure(webSocketServletContextHandler, (servletContext, wsContainer) ->
+                {
+                    if (webSocketIdleTimeoutMillis.isPresent()) {
+                        // timeout
+                        long to = webSocketIdleTimeoutMillis.get();
+                        wsContainer.setIdleTimeout(Duration.ofMillis(to));
+                    }
+                    // Configure default max size
+                    //wsContainer.setMaxTextMessageSize(65535);
+                    for (String path : webSocketHandlers.keySet()) {
+                        JettyWebSocketCreator webSocketCreator = WebSocketCreatorFactory.createWS(webSocketHandlers.get(path));
+                        // Add websockets
+                        wsContainer.addMapping(path, webSocketCreator);
+                    }
+                });
+            } catch (Exception ex) {
+                logger.error("creation of websocket context handler failed.", ex);
+                webSocketServletContextHandler = null;
+            }
         }
-        return null;
+        return webSocketServletContextHandler;
     }
 }
