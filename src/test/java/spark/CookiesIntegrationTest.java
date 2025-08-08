@@ -9,6 +9,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -21,6 +23,8 @@ import static spark.Spark.post;
  * @author dreambrother
  */
 public class CookiesIntegrationTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CookiesIntegrationTest.class);
 
     private static final String DEFAULT_HOST_URL = "http://localhost:4567";
 
@@ -37,6 +41,7 @@ public class CookiesIntegrationTest {
     public static void initRoutes() throws InterruptedException {
         post("/assertNoCookies", (request, response) -> {
             if (!request.cookies().isEmpty()) {
+                LOGGER.error("Received non empty cookies -> {}", request.cookies());
                 halt(500);
             }
             return "";
@@ -50,6 +55,7 @@ public class CookiesIntegrationTest {
         post("/assertHasCookie", (request, response) -> {
             String cookieValue = request.cookie(request.queryParams("cookieName"));
             if (!request.queryParams("cookieValue").equals(cookieValue)) {
+                LOGGER.error("No cookie [{}] found!", request.queryParams("cookieName"));
                 halt(500);
             }
             return "";
@@ -59,6 +65,7 @@ public class CookiesIntegrationTest {
             String cookieName = request.queryParams("cookieName");
             String cookieValue = request.cookie(cookieName);
             if (!request.queryParams("cookieValue").equals(cookieValue)) {
+                LOGGER.error("cookie [{}] has value [{}], expected [{}]", cookieName, cookieValue, request.queryParams("cookieValue"));
                 halt(500);
             }
             response.removeCookie(cookieName);
@@ -76,6 +83,7 @@ public class CookiesIntegrationTest {
             String cookieName = request.queryParams("cookieName");
             String cookieValue = request.cookie(cookieName);
             if (!request.queryParams("cookieValue").equals(cookieValue)) {
+                LOGGER.error("cookie [{}] with value [{}]. expected [{}]", cookieName, cookieValue, request.queryParams("cookieValue"));
                 halt(500);
             }
             response.removeCookie("/path", cookieName);
@@ -84,11 +92,13 @@ public class CookiesIntegrationTest {
 
         post("/path/assertNoCookies", (request, response) -> {
             if (!request.cookies().isEmpty()) {
+                LOGGER.error("cookies not empty! -> {}", request.cookies());
                 halt(500);
             }
             return "";
         });
 
+        Thread.sleep(500);
     }
 
     @AfterClass
@@ -107,6 +117,8 @@ public class CookiesIntegrationTest {
         String cookieValue = "testCookieValue";
         httpPost("/setCookie?cookieName=" + cookieName + "&cookieValue=" + cookieValue);
         httpPost("/assertHasCookie?cookieName=" + cookieName + "&cookieValue=" + cookieValue);
+        httpPost("/removeCookie?cookieName=" + cookieName + "&cookieValue=" + cookieValue);
+        httpPost("/assertNoCookies");
     }
 
     @Test
