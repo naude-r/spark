@@ -83,10 +83,11 @@ final class Body {
             }
 
             // Check if GZIP is wanted/accepted and in that case handle that
-            OutputStream responseStream = CompressUtil.checkAndWrap(httpRequest, httpResponse, compression);
+            // OutputStream responseStream = CompressUtil.checkAndWrap(httpRequest, httpResponse, compression);
+            final OutputStream responseStream = httpResponse.getOutputStream();
 
             // Serialize the body to output stream
-            serializerChain.process(responseStream, content);
+            serializerChain.process(httpResponse.getOutputStream(), content);
 
             responseStream.flush(); // needed for GZIP stream. Not sure where the HTTP response actually gets cleaned up
             responseStream.close(); // needed for GZIP

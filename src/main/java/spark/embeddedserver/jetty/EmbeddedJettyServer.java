@@ -4,7 +4,7 @@
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -19,13 +19,18 @@ package spark.embeddedserver.jetty;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import jakarta.servlet.DispatcherType;
+import org.eclipse.jetty.compression.server.CompressionConfig;
+import org.eclipse.jetty.compression.server.CompressionHandler;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.SessionHandler;
+import org.eclipse.jetty.http.HttpMethod;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.thread.ThreadPool;
@@ -147,7 +152,7 @@ public class EmbeddedJettyServer implements EmbeddedServer {
 
         servletContextHandler.addFilter(matcherFilter, "/*", EnumSet.allOf(DispatcherType.class));
 
-        server.setHandler(servletContextHandler);
+        server.setHandler(configureCompression(servletContextHandler));
 
         logger.info("== {} has ignited ...", NAME);
         if (hasCustomizedConnectors) {
@@ -202,5 +207,22 @@ public class EmbeddedJettyServer implements EmbeddedServer {
     public EmbeddedJettyServer withThreadPool(ThreadPool threadPool) {
         this.threadPool = threadPool;
         return this;
+    }
+
+    private static Handler configureCompression(final Handler handler) {
+        final CompressionConfig config = CompressionConfig.builder()
+            .compressIncludeEncoding("br")
+            .compressIncludeEncoding("gzip")
+            .compressIncludeEncoding("zstd")
+            .compressIncludeMethod(HttpMethod.GET.asString())
+            .compressIncludeMethod(HttpMethod.POST.asString())
+            .compressIncludeMethod(HttpMethod.PUT.asString())
+            .compressPreferredEncodings(List.of("br", "zstd", "gzip"))
+            .compressIncludePath("/")
+            .build();
+        final CompressionHandler compressHandler = new CompressionHandler();
+        compressHandler.setHandler(handler);
+        compressHandler.putConfiguration("/", config);
+        return compressHandler;
     }
 }

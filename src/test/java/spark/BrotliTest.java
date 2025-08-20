@@ -16,16 +16,23 @@
  */
 package spark;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.aayushatharva.brotli4j.decoder.BrotliInputStream;
+
 import spark.examples.brotli.BrotliClient;
 import spark.examples.brotli.BrotliExample;
 import spark.util.SparkTestUtil;
+import spark.utils.IOUtils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static spark.Spark.awaitInitialization;
 import static spark.Spark.stop;
 
@@ -49,6 +56,12 @@ public class BrotliTest {
     @Test
     public void checkCompression() throws Exception {
         String decompressed = BrotliExample.getAndDecompress();
+        assertEquals(BrotliExample.CONTENT, decompressed);
+    }
+
+    @Test
+    public void checkCompressionStream() throws Exception {
+        String decompressed = BrotliExample.getAndDecompressStream();
         assertEquals(BrotliExample.CONTENT, decompressed);
     }
 
