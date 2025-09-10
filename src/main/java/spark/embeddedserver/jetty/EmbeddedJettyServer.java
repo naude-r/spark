@@ -24,6 +24,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import jakarta.servlet.DispatcherType;
+import org.eclipse.jetty.compression.Compression;
+import org.eclipse.jetty.compression.EncoderConfig;
+import org.eclipse.jetty.compression.brotli.BrotliCompression;
+import org.eclipse.jetty.compression.brotli.BrotliEncoderConfig;
+import org.eclipse.jetty.compression.gzip.GzipCompression;
+import org.eclipse.jetty.compression.gzip.GzipEncoderConfig;
 import org.eclipse.jetty.compression.server.CompressionConfig;
 import org.eclipse.jetty.compression.server.CompressionHandler;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
@@ -223,6 +229,32 @@ public class EmbeddedJettyServer implements EmbeddedServer {
         final CompressionHandler compressHandler = new CompressionHandler();
         compressHandler.setHandler(handler);
         compressHandler.putConfiguration("/", config);
+        compressHandler.putCompression(configureBrotli());
+        compressHandler.putCompression(configureGzip());
         return compressHandler;
+    }
+
+    private static Compression configureBrotli() {
+        final Compression br = new BrotliCompression();
+        final BrotliEncoderConfig brCfg = new BrotliEncoderConfig();
+        //https://blog.cloudflare.com/results-experimenting-brotli/
+        brCfg.setCompressionLevel(4);
+        return configureCompression(br, brCfg);
+    }
+
+    private static Compression configureGzip() {
+        final Compression gz = new GzipCompression();
+        final GzipEncoderConfig gzCfg = new GzipEncoderConfig();
+        //https://blog.cloudflare.com/results-experimenting-brotli/
+        gzCfg.setCompressionLevel(6);
+        return configureCompression(gz, gzCfg);
+    }
+
+    private static Compression configureCompression(final Compression compression, final EncoderConfig config) {
+        compression.setDefaultEncoderConfig(config);
+        //min 100 bytes
+        compression.setMinCompressSize(100);
+
+        return compression;
     }
 }
